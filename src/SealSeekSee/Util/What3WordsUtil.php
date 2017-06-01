@@ -25,10 +25,11 @@ class What3WordsUtil
         curl_setopt($ch, CURLOPT_URL, 'https://api.what3words.com/v2/forward?' . $query);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_HEADER, false);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
 
         $response = curl_exec($ch);
         $response = json_decode($response, true);
-
+        
         return [
             'lat' => $response['geometry']['lat'],
             'lng' => $response['geometry']['lng']
@@ -55,6 +56,7 @@ class What3WordsUtil
         curl_setopt($ch, CURLOPT_URL, 'https://api.what3words.com/v2/reverse?' . $query);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_HEADER, false);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
 
         $response = curl_exec($ch);
         $response = json_decode($response, true);
