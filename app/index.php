@@ -1,6 +1,6 @@
 <?php
-$autoloader = require_once __DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'lib' . DIRECTORY_SEPARATOR . 'vendor' . DIRECTORY_SEPARATOR . 'autoload.php';
-$autoloader->add('SealSeekSee', '..' . DIRECTORY_SEPARATOR . 'src');
+$autoloader = require_once realpath(__DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'lib' . DIRECTORY_SEPARATOR . 'vendor' . DIRECTORY_SEPARATOR . 'autoload.php');
+$autoloader->add('SealSeekSee', realpath('..' . DIRECTORY_SEPARATOR . 'src'));
 
 $app = new Silex\Application();
 
@@ -10,7 +10,7 @@ require 'conf.php';
 $app->register(
     new Silex\Provider\TwigServiceProvider(),
     array(
-        'twig.path' => __DIR__ . DIRECTORY_SEPARATOR . 'views',
+        'twig.path' => realpath(__DIR__ . DIRECTORY_SEPARATOR . 'views'),
     )
 );
 
