@@ -23,3 +23,28 @@
         </div>
     </div>
 {% endblock %}
+
+{% block script %}
+    <script type="text/javascript">
+        $(window).load(function () {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(onSuccessGeolocation, onFailGeolocation);
+            } else {
+                // TODO: HTML5 Geolocation not supported
+                alert("HTML5 Geolocation not supported");
+            }
+        });
+
+        function onSuccessGeolocation(position) {
+            var currentLat = position.coords.latitude;
+            var currentLng = position.coords.longitude;
+
+            $(".jumbotron").append("<p>현재 좌표: " + currentLat + ", " + currentLng + "</p>");
+        }
+
+        function onFailGeolocation() {
+            // TODO:
+            alert("Get current position failed");
+        }
+    </script>
+{% endblock %}
