@@ -1,6 +1,6 @@
 <?php
-$autoloader = require_once realpath(__DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'lib' . DIRECTORY_SEPARATOR . 'vendor' . DIRECTORY_SEPARATOR . 'autoload.php');
-$autoloader->add('SealSeekSee', realpath('..' . DIRECTORY_SEPARATOR . 'src'));
+$autoloader = require_once __DIR__ . '/../lib/vendor/autoload.php';
+$autoloader->add('SealSeekSee', '../src');
 
 $app = new Silex\Application();
 
@@ -10,7 +10,7 @@ require 'conf.php';
 $app->register(
     new Silex\Provider\TwigServiceProvider(),
     array(
-        'twig.path' => realpath(__DIR__ . DIRECTORY_SEPARATOR . 'views'),
+        'twig.path' => __DIR__ . '/views'
     )
 );
 
@@ -20,6 +20,7 @@ $app->register(new Silex\Provider\ServiceControllerServiceProvider());
 $app->register(new Silex\Provider\UrlGeneratorServiceProvider());
 
 $app->mount('/', new SealSeekSee\Controller\WebController());
+$app->mount('/api', new SealSeekSee\Controller\ApiController());
 
 if ($app['debug']) {
     \Symfony\Component\Debug\ErrorHandler::register();
