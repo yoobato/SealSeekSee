@@ -12,7 +12,8 @@ use Symfony\Component\HttpFoundation\Response;
 
 class WebController implements ControllerProviderInterface
 {
-    const LETTER_CHECK_SHORTEN_URL = 'http://bit.ly/2rBjiPM';
+    // https://sealseeksee.yoobato.com/letter/find
+    const LETTER_CHECK_SHORTEN_URL = 'http://bit.ly/2sJjJXD';
 
     public function connect(Application $app)
     {
