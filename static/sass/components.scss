@@ -1,0 +1,91 @@
+@import './mixins';
+@import './color_set';
+
+@mixin comp_button {
+  display: inline-block; text-align: center;
+  @include box_sizing(border-box);
+  @include border_radius(2px);
+  @include transition(all .1s);
+  &:disabled, &.disabled {
+    border: 1px solid $light_gray_3; background: $light_gray_3;
+    &, &:active, &:visited, &:focus, &:link {
+      color: #fff;
+    }
+  }
+}
+
+@mixin comp_button_dark_gray {
+  border: 1px solid $dark_gray_1; background: $dark_gray_1;
+  color: #fff;
+  &:active, &:focus {
+    border: 1px solid $dark_gray_2; background: $dark_gray_2;
+  }
+}
+
+@mixin comp_button_red {
+  border: 1px solid $pastel_red_2; background: $pastel_red_2;
+  color: #fff;
+  &:active, &:focus {
+    border: 1px solid #BD6E84; background: #BD6E84;
+  }
+}
+
+@mixin comp_button_46 () {
+  padding: 15px 11px; font-size: 14px; font-weight: bold;
+}
+
+.comp_button_dark_gray_46 {
+  @include comp_button();
+  @include comp_button_dark_gray();
+  @include comp_button_46();
+}
+
+.comp_button_red_46 {
+  @include comp_button();
+  @include comp_button_red();
+  @include comp_button_46();
+}
+
+
+
+.comp_select {
+  position: relative; overflow: hidden;
+  height: 48px; width: 200px; padding: 15px 52px 16px 15px;
+  border: 2px solid #5F6079; background: transparent;
+  @include box_sizing(border-box);
+  @include border_radius(5px);
+  @include transition(border .2s);
+  .ti-arrow-circle-down {
+    position: absolute; display: block;
+    top: 50%; right: 12px; margin-top: -8px;
+    width: 20px; height: 20px; font-size: 18px;
+    content: "\e619";
+  }
+  &.disabled {background: $light_gray_2; }
+  &.focus { border-color: $pastel_red_1; }
+  select {
+    min-width: 120px; width: 180%; border: none; font-size: 16px; color: $dark_gray_1;
+    background: transparent; margin-top: -2px;
+    @include appearance_none();
+    &:disabled { color: $light_gray_2; }
+    &:focus { color: $pastel_red_1; }
+  }
+}
+
+.comp_text_input {
+  @include appearance_none();
+  @include box_sizing(border-box); @include border_radius(5px);
+  @include transition((border-color .2s, box-shadow .2s));
+  display: inline-block; border: 2px solid #5F6079; background: transparent;
+  padding: 13px; font-size: 16px; line-height: 1.2em; color: $dark_gray_1;
+  &:focus {
+    border-color: $pastel_red_1; @include box_shadow(0 0 4px 0 rgba(31, 142, 230, .1));
+  }
+  &:disabled {
+    background: $light_gray_2; color: $light_gray_1;
+  }
+  ::-webkit-input-placeholder { color: $dark_blue_1; }
+  ::-moz-placeholder { color: $dark_blue_1; }
+  :-ms-input-placeholder { color: $dark_blue_1; }
+  :-moz-placeholder { color: $dark_blue_1; }
+}

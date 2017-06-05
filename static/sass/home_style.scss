@@ -1,0 +1,53 @@
+@import './mixins';
+@import './color_set';
+@import './components';
+
+
+@-webkit-keyframes oscillation
+{
+  from
+  {
+    -webkit-transform:rotate(-10deg);
+  }
+  to{
+    -webkit-transform:rotate(10deg);
+  }
+}
+
+@-moz-keyframes oscillation
+{
+  from{
+    -moz-transform:rotate(-10deg);
+  }
+  to{
+    -moz-transform:rotate(10deg);
+  }
+}
+
+#page_home {
+  position: relative; left: auto; top: auto;
+  background: #F9FAFB; padding-top: 0;
+  z-index: 1;
+  .logo_wrapper {
+    display: flex; height: 100vh; width: 100%;
+    align-items: center; padding-bottom: 210px;
+    @include box_sizing(border-box);
+    .logo {
+      display: block; margin: 0 auto;
+      font-size: 100px; color: $pastel_red_2;
+      -webkit-transform-origin:50% -40px;
+      -moz-transform-origin:50% -40px;
+      -webkit-animation: oscillation 1s ease-in-out infinite alternate;
+      -moz-animation: oscillation 1s ease-in-out infinite alternate;
+    }
+  }
+  .home_buttons {
+    position: absolute; width: 100%;
+    bottom: 10px; left: 0; padding: 20px;
+    @include box_sizing(border-box);
+    .home_button {
+      display: block; width: 100%;
+      margin-top: 5px;
+    }
+  }
+}

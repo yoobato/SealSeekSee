@@ -103,6 +103,7 @@
                     bounds.extend(myMarker.getPosition());
                     map.fitBounds(bounds);
                 }, function (error) {
+                    {# TODO: 이거 뜨면 이 서비스 사용 못함 ㅋㅋ #}
                     switch(error.code) {
                         case error.PERMISSION_DENIED:
                             console.log("User denied the request for Geolocation.");
@@ -121,6 +122,7 @@
                     map.setCenter(letterMarker.getPosition());
                 }, options);
             } else {
+                {# TODO: 이거 뜨면 이 서비스 사용 못함 ㅋㅋ #}
                 map.setCenter(letterMarker.getPosition());
             }
         }

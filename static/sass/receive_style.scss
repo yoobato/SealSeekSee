@@ -1,0 +1,13 @@
+@import './mixins';
+@import './color_set';
+@import './components';
+
+#page_receive {
+  .bottom_button_wrapper {
+    position: absolute; bottom: 10px; left: 0;
+  }
+}
+
+#page_find_on_map {
+
+}

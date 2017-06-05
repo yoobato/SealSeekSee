@@ -6,4 +6,5 @@ lib/composer\.lock
 app/conf\.php
 lib/composer\.phar
 cache/
+static/node_modules
 
