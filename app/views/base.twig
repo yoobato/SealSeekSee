@@ -6,8 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
     <title>
-        {% block title %}
-        {% endblock %}
+    {% block title %}
+    {% endblock %}
     </title>
 
     <link rel="stylesheet" href="/static/css/bootstrap.min.css">
@@ -15,6 +15,8 @@
     {% endblock %}
 </head>
 <body>
+{# TODO: Absolute top. Fixed top #}
+<div id="alert-container">
 {% for alert in app.session.getFlashBag.get('alert') %}
     {% for key in alert|keys %}
         <div class="alert alert-{{ key }} alert-dismissible" role="alert">
@@ -27,12 +29,26 @@
         </div>
     {% endfor %}
 {% endfor %}
+</div>
 
 {% block container %}
 {% endblock %}
 
 <script src="/static/js/jquery.min.js"></script>
+<script src="/static/js/jquery.redirect.js"></script>
 <script src="/static/js/bootstrap.min.js"></script>
+<script type="text/javascript">
+    function showAlert(type, message) {
+        $("#alert-container").append(
+            '<div class="alert alert-' + type + ' alert-dismissible" role="alert">'
+            + '<span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>'
+            + '<span class="sr-only">Error:</span>'
+            + '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>'
+            + message
+            + '</div>'
+        );
+    }
+</script>
 {% block script %}
 {% endblock %}
 </body>

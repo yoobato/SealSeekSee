@@ -55,6 +55,11 @@ class Letter
      */
     public $created_date;
 
+    /**
+     * @Column(type="string")
+     */
+    public $opened_date;
+
     public function __construct($sender_phone, $receiver_phone, $title, $message, $w3w_address, $latitude, $longitude)
     {
         $this->sender_phone = $sender_phone;
@@ -64,5 +69,7 @@ class Letter
         $this->w3w_address = $w3w_address;
         $this->latitude = $latitude;
         $this->longitude = $longitude;
+
+        $this->created_date = date('Y-m-d H:i:s');
     }
 }

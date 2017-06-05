@@ -20,7 +20,6 @@ $app->register(new Silex\Provider\ServiceControllerServiceProvider());
 $app->register(new Silex\Provider\UrlGeneratorServiceProvider());
 
 $app->mount('/', new SealSeekSee\Controller\WebController());
-$app->mount('/api', new SealSeekSee\Controller\ApiController());
 
 if ($app['debug']) {
     \Symfony\Component\Debug\ErrorHandler::register();

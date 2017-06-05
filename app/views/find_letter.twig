@@ -1,0 +1,59 @@
+{% extends 'base.twig' %}
+
+{% block title %}
+    Seal Seek See
+{% endblock %}
+
+{% block css %}
+    <style>
+        body {
+            padding-top: 30px;
+        }
+    </style>
+{% endblock %}
+
+{% block container %}
+    <div class="container">
+        <div class="jumbotron">
+            <form id="find-letter-form">
+                <p>내 휴대전화 번호 : <input type="text" name="receiver_phone" /></p>
+                <p>단어 3개</p>
+                <p><input type="text" name="word1" /></p>
+                <p><input type="text" name="word2" /></p>
+                <p><input type="text" name="word3" /></p>
+
+                <p><input class="btn btn-default" type="submit" value="확인하기" /></p>
+            </form>
+        </div>
+    </div>
+{% endblock %}
+
+{% block script %}
+    <script type="text/javascript">
+        $(function() {
+            $("#find-letter-form").submit(function (event) {
+                event.preventDefault();
+
+                var receiverPhone = $("input[name='receiver_phone']").val();
+
+                var word1 = $("input[name='word1']").val();
+                var word2 = $("input[name='word2']").val();
+                var word3 = $("input[name='word3']").val();
+
+                var params = {
+                    receiver_phone: receiverPhone,
+                    word1: word1,
+                    word2: word2,
+                    word3: word3
+                };
+
+                $.post("/letter/find", params, function (result) {
+                    // Redirect POST
+                    $.redirect("/letter/find/map", {letter_id: result.letter.id}, "POST");
+                }).fail(function (jqXHR) {
+                    showAlert('danger', jqXHR.responseText);
+                });
+            });
+        });
+    </script>
+{% endblock %}

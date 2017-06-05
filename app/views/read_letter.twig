@@ -18,6 +18,9 @@
             <p>편지 제목 : <input type="text" value="{{ letter.title }}" readonly /></p>
             <p>편지 내용</p>
             <p><textarea rows="10" name="message" style="width: 100%;" readonly>{{ letter.message }}</textarea></p>
+            {% if letter.sender_phone != '' %}
+            <p><a href="/letter/write?receiver_phone={{ letter.sender_phone }}" class="btn btn-default">답장하기</a></div></p>
+            {% endif %}
         </div>
     </div>
 {% endblock %}

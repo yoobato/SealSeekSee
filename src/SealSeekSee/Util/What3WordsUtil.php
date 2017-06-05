@@ -16,7 +16,7 @@ class What3WordsUtil
      * @return array
      * @throws Exception
      */
-    public static function address2Coordinates($address)
+    public static function address2CoordinatesBounds($address)
     {
         $query = http_build_query([
             'addr' => $address,

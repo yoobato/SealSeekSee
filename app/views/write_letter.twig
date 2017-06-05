@@ -33,31 +33,58 @@
 
 {% block container %}
     <div class="container">
-        {# TODO: AJAX #}
-        <form action="/api/letter/write" method="post" class="jumbotron">
-            <input type="hidden" name="lat" required />
-            <input type="hidden" name="lng" required />
-            <p>보내는 사람 휴대전화 번호 : <input type="tel" name="sender_phone" pattern="^\d{3}-\d{3,4}-\d{4}$" /></p>
-            <p>받는 사람 휴대전화 번호 : <input type="tel" name="receiver_phone" pattern="^\d{3}-\d{3,4}-\d{4}$" required autofocus /></p>
-            <p>편지 제목 : <input type="text" name="title" required /></p>
-            <p>편지 내용</p>
-            <p><textarea rows="10" name="message" style="width: 100%;" required></textarea></p>
-            <p>위치</p>
-            <p><div id="map"></div></p>
-            <p><input type="submit" value="남기기" /></p>
-        </form>
+        <div class="jumbotron">
+            <form id="write-letter-form">
+                <p>보내는 사람 휴대전화 번호 : <input type="text" name="sender_phone" /></p>
+                <p>받는 사람 휴대전화 번호 : <input type="text" name="receiver_phone" {% if receiver_phone != '' %} value="{{ receiver_phone }}" {% else %} autofocus {% endif %} /></p>
+                <p>편지 제목 : <input type="text" name="title" {% if receiver_phone != '' %} autofocus {% endif %} /></p>
+                <p>편지 내용</p>
+                <p><textarea rows="10" name="message" style="width: 100%;"></textarea></p>
+                <p>위치</p>
+                <p><div id="map"></div></p>
+                <p><input class="btn btn-default" type="submit" value="남기기" /></p>
+            </form>
+        </div>
     </div>
 {% endblock %}
 
 {% block script %}
     <script type="text/javascript">
-        // Note: This example requires that you consent to location sharing when
-        // prompted by your browser. If you see the error "The Geolocation service
-        // failed.", it means you probably did not give permission for the browser to
-        // locate you.
+        // 연세대학교 제3공학관
+        var letterLat = 37.561741;
+        var letterLng = 126.935105;
+
+        $(function() {
+            $("#write-letter-form").submit(function (event) {
+                event.preventDefault();
+
+                var senderPhone = $("input[name='sender_phone']").val();
+                var receiverPhone = $("input[name='receiver_phone']").val();
+
+                var title = $("input[name='title']").val();
+                var message = $("textarea[name='message']").val();
+
+                var params = {
+                    sender_phone: senderPhone,
+                    receiver_phone: receiverPhone,
+                    title: title,
+                    message: message,
+                    lat: letterLat,
+                    lng: letterLng
+                };
+
+                $.post("/letter/write", params, function () {
+                    location.href = '/';
+                }).fail(function (jqXHR) {
+                    showAlert('danger', jqXHR.responseText);
+                });
+            });
+        });
+
+
         function initMap() {
             var map = new google.maps.Map(document.getElementById('map'), {
-                center: {lat: 37.561741, lng: 126.935105},  // 연세대학교 제3공학관
+                center: {lat: letterlat, lng: letterLng},
                 zoom: 16,
                 mapTypeId: google.maps.MapTypeId.ROADMAP,
                 zoomControl: true,
@@ -67,58 +94,24 @@
                 rotateControl: false
             });
 
-            //var infoWindow = new google.maps.InfoWindow({map: map});
-
-            // Try HTML5 geolocation.
             if (navigator.geolocation) {
                 navigator.geolocation.getCurrentPosition(function(position) {
-                    // onSuccess
                     var pos = {
                         lat: position.coords.latitude,
                         lng: position.coords.longitude
                     };
-                    console.log("Accuracy: " + position.coords.accuracy + "meters");
-
-//                    infoWindow.setPosition(pos);
-//                    infoWindow.setContent('Location found.');
                     map.setCenter(pos);
-                }, function(error) {
-                    switch(error.code) {
-                        case error.PERMISSION_DENIED:
-                            console.log("User denied the request for Geolocation.");
-                            break;
-                        case error.POSITION_UNAVAILABLE:
-                            console.log("Location information is unavailable.");
-                            break;
-                        case error.TIMEOUT:
-                            console.log("The request to get user location timed out.");
-                            break;
-                        case error.UNKNOWN_ERROR:
-                            console.log(x.innerHTML = "An unknown error occurred.");
-                            break;
-                    }
-
-                    // onFail
-//                    handleLocationError(true, infoWindow, map.getCenter());
                 });
             } else {
-                // Browser doesn't support Geolocation
-//                handleLocationError(false, infoWindow, map.getCenter());
+                console.log("HTML5 Geolocation not available");
             }
 
             map.addListener('center_changed', function() {
                 var center = map.getCenter();
-                $('input[name="lat"]').val(center.lat());
-                $('input[name="lng"]').val(center.lng());
+                letterLat = center.lat();
+                letterLng = center.lng();
             });
         }
-
-//        function handleLocationError(browserHasGeolocation, infoWindow, pos) {
-//            infoWindow.setPosition(pos);
-//            infoWindow.setContent(browserHasGeolocation ?
-//                'Error: The Geolocation service failed.' :
-//                'Error: Your browser doesn\'t support geolocation.');
-//        }
     </script>
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBNNrE7tuvdbalbsD2Yr8AE4ZPFOyYRgzs&libraries=geometry&callback=initMap" async defer></script>
 {% endblock %}

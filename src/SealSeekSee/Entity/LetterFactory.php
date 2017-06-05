@@ -50,6 +50,20 @@ class LetterFactory
     }
 
     /**
+     * @param Letter $letter
+     * @return Letter
+     */
+    public static function updateOpenedDate($letter)
+    {
+        $letter->opened_date = date('Y-m-d H:i:s');
+
+        $em = EntityManagerProvider::getEntityManager();
+        $em->persist($letter);
+        $em->flush();
+        return $letter;
+    }
+
+    /**
      * @param $sender_phone
      * @param $receiver_phone
      * @param $title
