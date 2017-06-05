@@ -54,8 +54,8 @@ class ApiController implements ControllerProviderInterface
 
         try {
             $letter = LetterFactory::create($sender_phone, $receiver_phone, $title, $message, $w3w_address, $lat, $lng);
-            // TODO: 문자 아끼자
-            //SMSUtil::send($receiver_phone, '편지(' . $title . ') 추가됨 (' . $w3w_address . ')');
+            // https://sealseeksee.yoobato.com/letter/check -> http://bit.ly/2rBjiPM
+            SMSUtil::send($receiver_phone, '편지(' . $title . ') 추가됨 (' . $w3w_address . ') 확인 => http://bit.ly/2rBjiPM');
 
             $app['session']->getFlashBag()->add('alert', array('success' => '편지가 추가되었습니다. (' . $w3w_address . ')'));
 
