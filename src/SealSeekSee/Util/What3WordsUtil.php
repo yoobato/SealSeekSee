@@ -2,6 +2,8 @@
 namespace SealSeekSee\Util;
 
 // 참고 https://docs.what3words.com/api/v2/
+use Exception;
+
 class What3WordsUtil
 {
     const WHAT_3_WORDS_API_KEY = '1MPXZL99';
@@ -12,12 +14,13 @@ class What3WordsUtil
      *
      * @param $address
      * @return array
+     * @throws Exception
      */
     public static function address2Coordinates($address)
     {
         $query = http_build_query([
             'addr' => $address,
-            'display' => 'minimal',
+            'display' => 'full',
             'key' => static::WHAT_3_WORDS_API_KEY
         ]);
 
@@ -29,11 +32,13 @@ class What3WordsUtil
 
         $response = curl_exec($ch);
         $response = json_decode($response, true);
-        
-        return [
-            'lat' => $response['geometry']['lat'],
-            'lng' => $response['geometry']['lng']
-        ];
+
+        if (isset($response['bounds'])) {
+            return $response['bounds'];
+        } else {
+            // 존재하지 않는 단어 주소를 입력한 경우
+            throw new Exception('편지의 암호 단어를 잘못 입력하셨습니다.');
+        }
     }
 
     /**
@@ -43,6 +48,7 @@ class What3WordsUtil
      * @param $lat
      * @param $lng
      * @return string
+     * @throws Exception
      */
     public static function coordinates2Address($lat, $lng)
     {
@@ -61,6 +67,11 @@ class What3WordsUtil
         $response = curl_exec($ch);
         $response = json_decode($response, true);
 
-        return $response['words'];
+        if (isset($response['words']) && !empty($response['words'])) {
+            return $response['words'];
+        } else {
+            // 존재하지 않는 위도, 경도를 입력한 경우
+            throw new Exception('편지를 남길 위치가 잘못 설정되었습니다.');
+        }
     }
 }

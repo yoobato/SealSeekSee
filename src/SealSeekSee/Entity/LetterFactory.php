@@ -1,6 +1,7 @@
 <?php
 namespace SealSeekSee\Entity;
 
+use Doctrine\DBAL\Types\Type;
 use SealSeekSee\DB\EntityManagerProvider;
 
 class LetterFactory
@@ -20,33 +21,32 @@ class LetterFactory
 
     /**
      * @param $receiver_phone
-     * @param $w3w_address
+     * @param $northeast_lat
+     * @param $northeast_lng
+     * @param $southwest_lat
+     * @param $southwest_lng
      * @return Letter[]
      */
-    public static function findListByReceiverPhoneAndWhat3WordsAddress($receiver_phone, $w3w_address)
+    public static function findByReceiverPhoneAndCoordinatesBounds($receiver_phone, $northeast_lat, $northeast_lng, $southwest_lat, $southwest_lng)
     {
         $em = EntityManagerProvider::getEntityManager();
-        $letters = $em->getRepository('SealSeekSee\Entity\Letter')->findBy(
-            array('receiver_phone' => $receiver_phone, 'w3w_address' => $w3w_address),
-            array('reg_date' => 'DESC')
-        );
-        return $letters;
-    }
 
-    /**
-     * @param $receiver_phone
-     * @param $w3w_address
-     * @return Letter
-     */
-    public static function findLatestOneByReceiverPhoneAndWhat3WordsAddress($receiver_phone, $w3w_address)
-    {
-        $em = EntityManagerProvider::getEntityManager();
-        /** @var Letter $letter */
-        $letter = $em->getRepository('SealSeekSee\Entity\Letter')->findOneBy(
-            array('receiver_phone' => $receiver_phone, 'w3w_address' => $w3w_address),
-            array('reg_date' => 'DESC')
-        );
-        return $letter;
+        $qb = $em->createQueryBuilder();
+        $qb->select('l')
+            ->from('SealSeekSee\Entity\Letter', 'l')
+            ->where('l.receiver_phone = :receiver_phone')
+            ->andWhere('l.latitude >= :min_latitude')
+            ->andWhere('l.longitude >= :min_longitude')
+            ->andWhere('l.latitude <= :max_latitude')
+            ->andWhere('l.longitude <= :max_longitude')
+            ->setParameter('receiver_phone', $receiver_phone, Type::STRING)
+            ->setParameter('min_latitude', $southwest_lat, Type::DECIMAL)
+            ->setParameter('min_longitude', $southwest_lng, Type::DECIMAL)
+            ->setParameter('max_latitude', $northeast_lat, Type::DECIMAL)
+            ->setParameter('max_longitude', $northeast_lng, Type::DECIMAL)
+            ->orderBy('l.created_date', 'DESC');
+
+        return $qb->getQuery()->getResult();
     }
 
     /**

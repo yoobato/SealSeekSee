@@ -6,6 +6,8 @@ use Exception;
 // Cafe24 SMS 호스팅 사용
 class SMSUtil
 {
+    const MAX_MESSAGE_LENGTH = 89;  // < 90byte 까지 가능
+
     const USER_ID = 'nangmanproject';                   // SMS 아이디
     const SECURE = 'ccd07e497c62acf169a5cdb3721460b4';  // 인증키
     const SENDER_PHONE = '010-3227-8287';               // 발신번호

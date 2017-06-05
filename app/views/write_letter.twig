@@ -37,7 +37,7 @@
         <form action="/api/letter/write" method="post" class="jumbotron">
             <input type="hidden" name="lat" required />
             <input type="hidden" name="lng" required />
-            <p>보내는 사람 휴대전화 번호 : <input type="tel" name="sender_phone" pattern="^\d{3}-\d{3,4}-\d{4}$" value="{{ sender_phone }}" /></p>
+            <p>보내는 사람 휴대전화 번호 : <input type="tel" name="sender_phone" pattern="^\d{3}-\d{3,4}-\d{4}$" /></p>
             <p>받는 사람 휴대전화 번호 : <input type="tel" name="receiver_phone" pattern="^\d{3}-\d{3,4}-\d{4}$" required autofocus /></p>
             <p>편지 제목 : <input type="text" name="title" required /></p>
             <p>편지 내용</p>

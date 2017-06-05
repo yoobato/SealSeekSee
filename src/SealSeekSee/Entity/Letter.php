@@ -53,7 +53,7 @@ class Letter
     /**
      * @Column(type="string")
      */
-    public $reg_date;
+    public $created_date;
 
     public function __construct($sender_phone, $receiver_phone, $title, $message, $w3w_address, $latitude, $longitude)
     {

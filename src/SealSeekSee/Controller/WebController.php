@@ -12,46 +12,22 @@ class WebController implements ControllerProviderInterface
 {
     public function connect(Application $app)
     {
-        /**
-         * @var $web \Silex\ControllerCollection
-         */
+        /** @var $web \Silex\ControllerCollection */
         $web = $app['controllers_factory'];
 
-        $web->get('/', function() use ($app) {
+        $web->get('/', function () use ($app) {
             return $app['twig']->render('/index.twig');
         });
-
-        $web->get('/letter/write', array($this, 'renderWriteLetterPage'));
-
-        $web->get('/letter/check', array($this, 'renderCheckLetterPage'));
-
-        // TODO: 나중에 post로 바꾸던가 해야한다
-        $web->match('/letter/check/map', array($this, 'renderCheckLetterMapPage'));
-        $web->match('/letter/read', array($this, 'renderReadLetterPage'));
+        $web->get('/letter/write', function () use ($app) {
+            return $app['twig']->render('/write_letter.twig');
+        });
+        $web->get('/letter/check', function () use ($app) {
+            return $app['twig']->render('/check_letter.twig');
+        });
+        $web->post('/letter/check/map', array($this, 'renderCheckLetterMapPage'));
+        $web->post('/letter/read', array($this, 'renderReadLetterPage'));
 
         return $web;
-    }
-
-    public function renderWriteLetterPage(Request $req, Application $app)
-    {
-        $sender_phone = $req->get('sender_phone', '');
-
-        return $app['twig']->render('write_letter.twig',
-            array(
-                'sender_phone' => $sender_phone
-            )
-        );
-    }
-
-    public function renderCheckLetterPage(Request $req, Application $app)
-    {
-        $receiver_phone = $req->get('receiver_phone', '');
-
-        return $app['twig']->render('check_letter.twig',
-            array(
-                'receiver_phone' => $receiver_phone
-            )
-        );
     }
 
     public function renderCheckLetterMapPage(Request $req, Application $app)
@@ -70,12 +46,24 @@ class WebController implements ControllerProviderInterface
 
         $w3w_address = $word1 . '.' . $word2 . '.' . $word3;
 
-        $letter = LetterFactory::findLatestOneByReceiverPhoneAndWhat3WordsAddress($receiver_phone, $w3w_address);
-        if ($letter == null) {
-            return new Response('해당하는 편지가 없음', Response::HTTP_BAD_REQUEST);
-        }
+        try {
+            $bounds = What3WordsUtil::address2Coordinates($w3w_address);
 
-        return $app['twig']->render('check_letter_map.twig', array('letter' => $letter));
+            $letters = LetterFactory::findByReceiverPhoneAndCoordinatesBounds(
+                $receiver_phone,
+                $bounds['northeast']['lat'],
+                $bounds['northeast']['lng'],
+                $bounds['southwest']['lat'],
+                $bounds['southwest']['lng']
+            );
+
+            if (empty($letters)) {
+                throw new \Exception('편지 없음');
+            }
+            return $app['twig']->render('check_letter_map.twig', array('letter' => $letters[0]));
+        } catch (\Exception $e) {
+            return new Response($e->getMessage(), Response::HTTP_NOT_FOUND);
+        }
     }
 
     public function renderReadLetterPage(Request $req, Application $app)
