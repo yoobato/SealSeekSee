@@ -1,0 +1,19 @@
+{
+  "name": "SealSeekSee",
+  "version": "1.0.0",
+  "description": "2017-1 Internet programming final team project",
+  "dependencies": {
+    "gulp": "^3.9.1"
+  },
+  "devDependencies": {
+    "autosize": "^3.0.21",
+    "gulp": "^3.9.1",
+    "gulp-sass": "^3.1.0",
+    "jquery": "^3.2.1"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Yonsei 404 Not Found Team",
+  "license": "ISC"
+}

@@ -1,117 +1,40 @@
-{% extends 'base.twig' %}
-
-{% block title %}
-    Seal Seek See
-{% endblock %}
-
-{% block css %}
-    <style>
-        body {
-            padding-top: 30px;
-        }
-
-        #map {
-            height: 400px;
-            width: 100%;
-            background: black;
-        }
-
-        #map:after {
-            width: 22px;
-            height: 40px;
-            display: block;
-            content: ' ';
-            position: absolute;
-            top: 50%; left: 50%;
-            margin: -40px 0 0 -11px;
-            background: url('https://maps.gstatic.com/mapfiles/api-3/images/spotlight-poi_hdpi.png');
-            background-size: 22px 40px; /* Since I used the HiDPI marker version this compensates for the 2x size */
-            pointer-events: none; /* This disables clicks on the marker. Not fully supported by all major browsers, though */
-        }
-    </style>
-{% endblock %}
-
-{% block container %}
-    <div class="container">
-        <div class="jumbotron">
-            <form id="write-letter-form">
-                <p>보내는 사람 휴대전화 번호 : <input type="text" name="sender_phone" /></p>
-                <p>받는 사람 휴대전화 번호 : <input type="text" name="receiver_phone" {% if receiver_phone != '' %} value="{{ receiver_phone }}" {% else %} autofocus {% endif %} /></p>
-                <p>편지 제목 : <input type="text" name="title" {% if receiver_phone != '' %} autofocus {% endif %} /></p>
-                <p>편지 내용</p>
-                <p><textarea rows="10" name="message" style="width: 100%;"></textarea></p>
-                <p>위치</p>
-                <p><div id="map"></div></p>
-                <p><input class="btn btn-default" type="submit" value="남기기" /></p>
-            </form>
+<section id="page_send">
+    <div class="input_type_wrapper">
+        <label for="send_senderPhone_1" class="input_label">보내는 사람 번호</label>
+        <div class="phone_num_input_wrapper">
+            <div class="comp_select phone_num_input_1">
+                <select name="sender_phone_number_1" id="send_senderPhone_1">
+                    <option value="010">010</option>
+                </select>
+                <span class="ti-arrow-circle-down"></span>
+            </div>
+            <div class="phone_num_input_2">
+                <input type="number" maxlength="4" name="sender_phone_number_2" class="comp_text_input" id="send_senderPhone_2">
+            </div>
+            <div class="phone_num_input_3">
+                <input type="number" maxlength="4" name="sender_phone_number_3" class="comp_text_input" id="send_senderPhone_3">
+            </div>
         </div>
     </div>
-{% endblock %}
-
-{% block script %}
-    <script type="text/javascript">
-        // 연세대학교 제3공학관
-        var letterLat = 37.561741;
-        var letterLng = 126.935105;
-
-        $(function() {
-            $("#write-letter-form").submit(function (event) {
-                event.preventDefault();
-
-                var senderPhone = $("input[name='sender_phone']").val();
-                var receiverPhone = $("input[name='receiver_phone']").val();
-
-                var title = $("input[name='title']").val();
-                var message = $("textarea[name='message']").val();
-
-                var params = {
-                    sender_phone: senderPhone,
-                    receiver_phone: receiverPhone,
-                    title: title,
-                    message: message,
-                    lat: letterLat,
-                    lng: letterLng
-                };
-
-                $.post("/letter/write", params, function () {
-                    location.href = '/';
-                }).fail(function (jqXHR) {
-                    showAlert('danger', jqXHR.responseText);
-                });
-            });
-        });
-
-
-        function initMap() {
-            var map = new google.maps.Map(document.getElementById('map'), {
-                center: {lat: letterLat, lng: letterLng},
-                zoom: 16,
-                mapTypeId: google.maps.MapTypeId.ROADMAP,
-                zoomControl: true,
-                mapTypeControl: false,
-                scaleControl: true,
-                streetViewControl: false,
-                rotateControl: false
-            });
-
-            if (navigator.geolocation) {
-                navigator.geolocation.getCurrentPosition(function(position) {
-                    var pos = {
-                        lat: position.coords.latitude,
-                        lng: position.coords.longitude
-                    };
-                    map.setCenter(pos);
-                });
-            } else {
-                console.log("HTML5 Geolocation not available");
-            }
-
-            map.addListener('center_changed', function() {
-                var center = map.getCenter();
-                letterLat = center.lat();
-                letterLng = center.lng();
-            });
-        }
-    </script>
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBNNrE7tuvdbalbsD2Yr8AE4ZPFOyYRgzs&libraries=geometry&callback=initMap" async defer></script>
-{% endblock %}
+    <article class="message_area_wrapper">
+        <div class="message_area">
+            <input type="text" class="title_input" placeholder="제목을 입력해주세요.">
+            <textarea
+                    name="mail_context"
+                    class="content_input js_auto_resize"
+                    placeholder="편지의 내용을 입력하세요."
+            ></textarea>
+        </div>
+    </article>
+    <div class="map_wrapper">
+        <div id="map" class="map_area"></div>
+    </div>
+    <div class="bottom_button_wrapper">
+        <button
+                type="button"
+                class="receive_button comp_button_red_46"
+        >
+            편지 남기기
+        </button>
+    </div>
+</section>

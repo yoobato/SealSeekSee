@@ -1,0 +1,29 @@
+@font-face {
+    font-family: 'Noto Sans Korean';
+    font-style: normal;
+    font-weight: 400;
+    src: local('Noto Sans Regular'), local('NotoSans-Regular'),
+    url(NotoSansKR-Regular-Hestia.eot),
+    url(NotoSansKR-Regular-Hestia.woff) format('woff'),
+    url(NotoSansKR-Regular-Hestia.otf) format('opentype');
+}
+
+@font-face {
+    font-family: 'Noto Sans Korean';
+    font-style: normal;
+    font-weight: 700;
+    src: local('Noto Sans Bold'), local('NotoSans-Bold'),
+    url(NotoSansKR-Bold-Hestia.eot),
+    url(NotoSansKR-Bold-Hestia.woff) format('woff'),
+    url(NotoSansKR-Bold-Hestia.otf) format('opentype');
+}
+
+@font-face {
+    font-family: 'Nanum Pen Script';
+    font-style: normal;
+    font-weight: 400;
+    src: url(NanumPenScript-Regular.eot),
+    url(NanumPenScript-Regular.woff2) format('woff2'),
+    url(NanumPenScript-Regular.woff) format('woff'),
+    url(NanumPenScript-Regular.ttf) format('truetype');
+}

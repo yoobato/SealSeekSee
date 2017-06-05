@@ -1,59 +1,36 @@
-{% extends 'base.twig' %}
-
-{% block title %}
-    Seal Seek See
-{% endblock %}
-
-{% block css %}
-    <style>
-        body {
-            padding-top: 30px;
-        }
-    </style>
-{% endblock %}
-
-{% block container %}
-    <div class="container">
-        <div class="jumbotron">
-            <form id="find-letter-form">
-                <p>내 휴대전화 번호 : <input type="text" name="receiver_phone" /></p>
-                <p>단어 3개</p>
-                <p><input type="text" name="word1" /></p>
-                <p><input type="text" name="word2" /></p>
-                <p><input type="text" name="word3" /></p>
-
-                <p><input class="btn btn-default" type="submit" value="확인하기" /></p>
-            </form>
+<section id="page_receive">
+    <div class="input_type_wrapper">
+        <label for="receive_senderPhone_1" class="input_label">보내는 사람 번호</label>
+        <div class="phone_num_input_wrapper">
+            <div class="comp_select phone_num_input_1">
+                <select name="sender_phone_number_1" id="receive_senderPhone_1">
+                    <option value="010">010</option>
+                </select>
+                <span class="ti-arrow-circle-down"></span>
+            </div>
+            <div class="phone_num_input_2">
+                <input type="number" maxlength="4" name="sender_phone_number_2" class="comp_text_input" id="receive_senderPhone_2">
+            </div>
+            <div class="phone_num_input_3">
+                <input type="number" maxlength="4" name="sender_phone_number_3" class="comp_text_input" id="receive_senderPhone_3">
+            </div>
         </div>
     </div>
-{% endblock %}
-
-{% block script %}
-    <script type="text/javascript">
-        $(function() {
-            $("#find-letter-form").submit(function (event) {
-                event.preventDefault();
-
-                var receiverPhone = $("input[name='receiver_phone']").val();
-
-                var word1 = $("input[name='word1']").val();
-                var word2 = $("input[name='word2']").val();
-                var word3 = $("input[name='word3']").val();
-
-                var params = {
-                    receiver_phone: receiverPhone,
-                    word1: word1,
-                    word2: word2,
-                    word3: word3
-                };
-
-                $.post("/letter/find", params, function (result) {
-                    // Redirect POST
-                    $.redirect("/letter/find/map", {letter_id: result.letter.id}, "POST");
-                }).fail(function (jqXHR) {
-                    showAlert('danger', jqXHR.responseText);
-                });
-            });
-        });
-    </script>
-{% endblock %}
+    <div class="input_type_wrapper">
+        <label for="locationWord1" class="input_label">위치 단어</label>
+        <div class="location_words">
+            <input name="location_word_1" class="comp_text_input" id="locationWord1">
+            <input name="location_word_2" class="comp_text_input" id="locationWord2">
+            <input name="location_word_3" class="comp_text_input" id="locationWord3">
+        </div>
+    </div>
+    <div class="bottom_button_wrapper">
+        <button
+                type="button"
+                class="receive_button comp_button_red_46 js_page_toggle"
+                data-target="find_on_map"
+        >
+            편지 찾기
+        </button>
+    </div>
+</section>
