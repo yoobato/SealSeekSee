@@ -30,6 +30,19 @@
     {% endblock %}
 </head>
 <body>
+{% for alert in app.session.getFlashBag.get('alert') %}
+    {% for key in alert|keys %}
+        <div class="alert alert-{{ key }} alert-dismissible" role="alert">
+            {# TODO: Alert 키에 따라서 glyphicon 이랑 sr-only 바꿔야하나?#}
+            <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+            <span class="sr-only">Error:</span>
+
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            {{ alert[key] }}
+        </div>
+    {% endfor %}
+{% endfor %}
+
 {% block container %}
 {% endblock %}
 

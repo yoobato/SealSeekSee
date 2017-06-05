@@ -1,0 +1,108 @@
+{% extends 'base.twig' %}
+
+{% block title %}
+    Seal Seek See
+{% endblock %}
+
+{% block css %}
+    <style>
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+
+        #map {
+            width: 100%;
+            height: 100%;
+            background: black;
+        }
+    </style>
+{% endblock %}
+
+{% block container %}
+    <div id="map"></div>
+{% endblock %}
+
+{% block script %}
+    <script type="text/javascript">
+        function initMap() {
+            var map = new google.maps.Map(document.getElementById('map'), {
+                center: {lat: 37.561741, lng: 126.935105},  // 연세대학교 제3공학관
+                zoom: 16,
+                mapTypeId: google.maps.MapTypeId.ROADMAP,
+                zoomControl: true,
+                mapTypeControl: false,
+                scaleControl: true,
+                streetViewControl: false,
+                rotateControl: false
+            });
+
+            var letterMarker = new google.maps.Marker({
+                position: new google.maps.LatLng({{ letter_lat }}, {{ letter_lng}}),
+                map: map
+            });
+
+            var myMarker = null;
+
+            if (navigator.geolocation) {
+                // TODO: options 넣었을 때 error 뜨면 그냥 넣지 말자
+                var options = {enableHighAccuracy: true};
+                navigator.geolocation.watchPosition(function(position) {
+                    var pos = {
+                        lat: position.coords.latitude,
+                        lng: position.coords.longitude
+                    };
+                    console.log("Accuracy: " + position.coords.accuracy + "meters");
+                    alert('Update! ' + position.coords.latitude + ', ' + position.coords.longitude + ' (' + position.coords.accuracy + ')');
+
+                    // TODO: 음... 여기서 편지랑 거리 확인 해야하나?
+
+                    // onSuccess
+                    if (myMarker != null) {
+                        myMarker.setMap(null);
+                    }
+                    myMarker = new google.maps.Marker({
+                        position: pos,
+                        map: map,
+                        icon: 'https://maps.google.com/mapfiles/kml/shapes/library_maps.png'
+                    });
+
+                    var bounds = new google.maps.LatLngBounds();
+                    bounds.extend(letterMarker.getPosition());
+                    bounds.extend(myMarker.getPosition());
+                    map.fitBounds(bounds);
+
+//                    coords.latitude	The latitude as a decimal number (always returned)
+//                    coords.longitude	The longitude as a decimal number (always returned)
+//                    coords.accuracy	The accuracy of position (always returned)
+//                    coords.altitude	The altitude in meters above the mean sea level (returned if available)
+//                    coords.altitudeAccuracy	The altitude accuracy of position (returned if available)
+//                    coords.heading	The heading as degrees clockwise from North (returned if available)
+//                    coords.speed	The speed in meters per second (returned if available)
+//                    timestamp	The date/time of the response (returned if available)
+                }, function (error) {
+                    switch(error.code) {
+                        case error.PERMISSION_DENIED:
+                            console.log("User denied the request for Geolocation.");
+                            break;
+                        case error.POSITION_UNAVAILABLE:
+                            console.log("Location information is unavailable.");
+                            break;
+                        case error.TIMEOUT:
+                            console.log("The request to get user location timed out.");
+                            break;
+                        case error.UNKNOWN_ERROR:
+                            console.log(x.innerHTML = "An unknown error occurred.");
+                            break;
+                    }
+
+                    map.setCenter(letterMarker.getPosition());
+                }, options);
+            } else {
+                map.setCenter(letterMarker.getPosition());
+            }
+        }
+    </script>
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDkyuDngdGBYtLYjWJ8hu_mKX-HfnN1evM&&callback=initMap"></script>
+{% endblock %}

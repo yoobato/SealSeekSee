@@ -15,36 +15,8 @@
 {% block container %}
     <div class="container">
         <div class="jumbotron">
-            <p>Hello World!</p>
-
-            {#TODO: 테스트 #}
-            <p>좌표: {{ coordinates.lat }}, {{ coordinates.lng }}</p>
-            <p>주소: {{ address }}</p>
+            <p><a href="/letter/write" class="btn btn-default">편지 쓰기</a></p>
+            <p><a href="/letter/check" class="btn btn-default">편지 읽기</a></p>
         </div>
     </div>
-{% endblock %}
-
-{% block script %}
-    <script type="text/javascript">
-        $(window).load(function () {
-            if (navigator.geolocation) {
-                navigator.geolocation.getCurrentPosition(onSuccessGeolocation, onFailGeolocation);
-            } else {
-                // TODO: HTML5 Geolocation not supported
-                alert("HTML5 Geolocation not supported");
-            }
-        });
-
-        function onSuccessGeolocation(position) {
-            var currentLat = position.coords.latitude;
-            var currentLng = position.coords.longitude;
-
-            $(".jumbotron").append("<p>현재 좌표: " + currentLat + ", " + currentLng + "</p>");
-        }
-
-        function onFailGeolocation() {
-            // TODO:
-            alert("Get current position failed");
-        }
-    </script>
 {% endblock %}
