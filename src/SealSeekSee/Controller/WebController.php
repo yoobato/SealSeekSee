@@ -1,6 +1,7 @@
 <?php
 namespace SealSeekSee\Controller;
 
+use SealSeekSee\Entity\LetterFactory;
 use SealSeekSee\Util\What3WordsUtil;
 use Silex\Application;
 use Silex\ControllerProviderInterface;
@@ -23,6 +24,8 @@ class WebController implements ControllerProviderInterface
         $web->get('/letter/write', array($this, 'renderWriteLetterPage'));
 
         $web->get('/letter/check', array($this, 'renderCheckLetterPage'));
+
+        // TODO: 나중에 post로 바꾸던가 해야한다
         $web->match('/letter/check/map', array($this, 'renderCheckLetterMapPage'));
         $web->match('/letter/read', array($this, 'renderReadLetterPage'));
 
@@ -66,26 +69,22 @@ class WebController implements ControllerProviderInterface
         }
 
         $w3w_address = $word1 . '.' . $word2 . '.' . $word3;
-        $latLng = What3WordsUtil::address2Coordinates($w3w_address);
 
-        // TODO: letter 가지고 와서 보여주자
+        $letter = LetterFactory::findLatestOneByReceiverPhoneAndWhat3WordsAddress($receiver_phone, $w3w_address);
+        if ($letter == null) {
+            return new Response('해당하는 편지가 없음', Response::HTTP_BAD_REQUEST);
+        }
 
-        return $app['twig']->render('check_letter_map.twig',
-            array(
-                'letter_lat' => $latLng['lat'],
-                'letter_lng' => $latLng['lng']
-            )
-        );
+        return $app['twig']->render('check_letter_map.twig', array('letter' => $letter));
     }
 
     public function renderReadLetterPage(Request $req, Application $app)
     {
-        // TODO: 테스트 코드
-//        $coordinates = What3WordsUtil::address2Coordinates('index.home.raft');
-//        $address = What3WordsUtil::coordinates2Address(51.521251,-0.203586);
-//
-//        return $app['twig']->render('/index.twig', array('coordinates' => $coordinates, 'address' => $address));
-
-        return $app['twig']->render('/read_letter.twig');
+        $letter_id = $req->get('letter_id', '');
+        $letter = LetterFactory::get($letter_id);
+        if ($letter == null) {
+            return new Response('잘못된 편지 ID');
+        }
+        return $app['twig']->render('/read_letter.twig', array('letter' => $letter));
     }
 }

@@ -1,0 +1,23 @@
+{% extends 'base.twig' %}
+
+{% block title %}
+    Seal Seek See
+{% endblock %}
+
+{% block css %}
+    <style>
+        body {
+            padding-top: 30px;
+        }
+    </style>
+{% endblock %}
+
+{% block container %}
+    <div class="container">
+        <div class="jumbotron">
+            <p>편지 제목 : <input type="text" value="{{ letter.title }}" readonly /></p>
+            <p>편지 내용</p>
+            <p><textarea rows="10" name="message" style="width: 100%;" readonly>{{ letter.message }}</textarea></p>
+        </div>
+    </div>
+{% endblock %}

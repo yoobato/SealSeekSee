@@ -34,7 +34,10 @@
 {% block container %}
     <div id="map"></div>
 
-    <button class="btn btn-danger">편지 읽기</button>
+    <form action="/letter/read" method="post">
+        <input type="hidden" value="{{ letter.id }}" name="letter_id" />
+        <input type="submit" class="btn btn-danger" value="편지 읽기" />
+    </form>
 {% endblock %}
 
 {% block script %}
@@ -51,11 +54,12 @@
                 rotateControl: false
             });
 
-            var letterPos = new google.maps.LatLng({{ letter_lat }}, {{ letter_lng }});
+            var letterPos = new google.maps.LatLng({{ letter.latitude }}, {{ letter.longitude }});
 
             var letterMarker = new google.maps.Marker({
                 position: letterPos,
-                map: map
+                map: map,
+                title: "{{ letter.title }}"
             });
 
             var myMarker = null;
@@ -73,7 +77,7 @@
                     }
 
                     var pos = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
-                    
+
                     var distance = google.maps.geometry.spherical.computeDistanceBetween(pos, letterPos);
                     console.log("Distance: " + distance);
 
@@ -98,15 +102,6 @@
                     bounds.extend(letterMarker.getPosition());
                     bounds.extend(myMarker.getPosition());
                     map.fitBounds(bounds);
-
-//                    coords.latitude	The latitude as a decimal number (always returned)
-//                    coords.longitude	The longitude as a decimal number (always returned)
-//                    coords.accuracy	The accuracy of position (always returned)
-//                    coords.altitude	The altitude in meters above the mean sea level (returned if available)
-//                    coords.altitudeAccuracy	The altitude accuracy of position (returned if available)
-//                    coords.heading	The heading as degrees clockwise from North (returned if available)
-//                    coords.speed	The speed in meters per second (returned if available)
-//                    timestamp	The date/time of the response (returned if available)
                 }, function (error) {
                     switch(error.code) {
                         case error.PERMISSION_DENIED:
