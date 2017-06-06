@@ -113,11 +113,13 @@
             mapTypeControl: false,
             scaleControl: true,
             streetViewControl: false,
-            rotateControl: false,
-            gestureHandling: "cooperative"
+            rotateControl: false
         };
-        mapForWriteLetter = new google.maps.Map(document.getElementById("map_for_write_letter"), mapOptions);
         mapForFindLetter = new google.maps.Map(document.getElementById("map_for_find_letter"), mapOptions);
+
+        // 편지 쓸 때는, 지도를 두손가락으로만 스크롤 할 수 있도록 함
+        mapOptions.gestureHandling = "cooperative";
+        mapForWriteLetter = new google.maps.Map(document.getElementById("map_for_write_letter"), mapOptions);
     }
 
     function initMapForWriteLetter() {
