@@ -8,11 +8,26 @@
 
     <meta http-equiv="X-UA-Compatible" content="IE=Edge">
     <meta http-equiv="content-language" content="ko-kr">
-    <title>ui-testing</title>
+    <title>Seal Seek See</title>
 
     <link rel="stylesheet" href="/static/fonts/font.css" type="text/css">
     <link rel="stylesheet" href="/static/fonts/themify-icons.css">
     <link rel="stylesheet" href="/static/css/base.css">
+    <style type="text/css">
+        /* 편지 쓸 때, 지도 중간에 뜨는 마커 추가 */
+        #map_for_write_letter:after {
+            width: 22px;
+            height: 40px;
+            display: block;
+            content: ' ';
+            position: absolute;
+            top: 50%; left: 50%;
+            margin: -40px 0 0 -11px;
+            background: url('/static/images/spotlight-poi_hdpi.png');
+            background-size: 22px 40px;
+            pointer-events: none;
+        }
+    </style>
     <script src="/static/node_modules/jquery/dist/jquery.min.js"></script>
     <script src="/static/node_modules/autosize/dist/autosize.min.js"></script>
     <script>
@@ -38,6 +53,7 @@
 </head>
 <body>
 <header id="header" class="top_nav_header disactive">
+    {# TODO: 뒤로가기 이미지 교체. 홈 버튼으로 바꾸자 #}
     <button class="history_back_button js_page_toggle" type="button" data-target="home">
         <span class="history_back_button_icon ti-angle-left"></span>
     </button>
@@ -58,5 +74,126 @@
         <div class="dot2"></div>
     </div>
 </div>
+
+<script type="text/javascript">
+    // 연세대학교 제3공학관
+    var writeLetterLat = 37.561741;
+    var writeLetterLng = 126.935105;
+
+    function initMap() {
+        var mapForWriteLetter = new google.maps.Map(document.getElementById("map_for_write_letter"), {
+            center: {lat: writeLetterLat, lng: writeLetterLng},
+            zoom: 16,
+            mapTypeId: google.maps.MapTypeId.ROADMAP,
+            zoomControl: true,
+            mapTypeControl: false,
+            scaleControl: true,
+            streetViewControl: false,
+            rotateControl: false
+        });
+
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(function(position) {
+                var pos = {
+                    lat: position.coords.latitude,
+                    lng: position.coords.longitude
+                };
+
+                writeLetterLat = pos.lat;
+                writeLetterLng = pos.lng;
+                mapForWriteLetter.setCenter(pos);
+            }, function () {
+                {# TODO: 우리 서비스 이용 못함 #}
+                console.log("HTML5 Geolocation failed (permission???)");
+            });
+        } else {
+            {# TODO: 우리 서비스 이용 못함 #}
+            console.log("HTML5 Geolocation not available");
+        }
+
+        mapForWriteLetter.addListener('center_changed', function() {
+            var center = mapForWriteLetter.getCenter();
+            writeLetterLat = center.lat();
+            writeLetterLng = center.lng();
+        });
+    }
+
+    $(function() {
+        $("#write_letter_form").submit(function(event) {
+            event.preventDefault();
+
+            var $form = $(this);
+
+            var $senderPhone1 = $form.find("select[name='sender_phone_number_1']");
+            var $senderPhone2 = $form.find("input[name='sender_phone_number_2']");
+            var $senderPhone3 = $form.find("input[name='sender_phone_number_3']");
+            var usingSenderPhone = $senderPhone2.val().length > 0 || $senderPhone3.val().length > 0;
+
+            var senderPhone = "";
+            if (usingSenderPhone) {
+                if (/^\d{3,4}$/.test($senderPhone2.val()) === false) {
+                    alert("보내는 사람 번호가 올바르지 않습니다.");
+                    $senderPhone2.focus();
+                    return;
+                }
+                if (/^\d{4}$/.test($senderPhone3.val()) === false) {
+                    alert("보내는 사람 번호가 올바르지 않습니다.");
+                    $senderPhone3.focus();
+                    return;
+                }
+                senderPhone = $senderPhone1.val() + "-" + $senderPhone2.val() + "-" + $senderPhone3.val();
+            }
+
+            var $receiverPhone1 = $form.find("select[name='receiver_phone_number_1']");
+            var $receiverPhone2 = $form.find("input[name='receiver_phone_number_2']");
+            var $receiverPhone3 = $form.find("input[name='receiver_phone_number_3']");
+            var receiverPhone = $receiverPhone1.val() + "-" + $receiverPhone2.val() + "-" + $receiverPhone3.val();
+
+            var $title = $form.find("input[name='title']");
+            var $content = $form.find("textarea[name='content']");
+
+            var params = {
+                sender_phone: senderPhone,
+                receiver_phone: receiverPhone,
+                title: $title.val(),
+                message: $content.val(),
+                lat: writeLetterLat,
+                lng: writeLetterLng
+            };
+
+            showLoading();
+            $.post("/api/letter/write", params, function(data, textStatus, jqXHR) {
+                hideLoading();
+                alert(jqXHR.responseText);
+                activePage("home");
+
+                // 초기화
+                $senderPhone1.val("010");
+                $senderPhone2.val("");
+                $senderPhone3.val("");
+
+                $receiverPhone1.val("010");
+                $receiverPhone2.val("");
+                $receiverPhone3.val("");
+
+                $title.val("");
+                $content.val("");
+            }).fail(function (jqXHR) {
+                hideLoading();
+                alert(jqXHR.responseText);
+            });
+        });
+    });
+
+    function showLoading() {
+        $(".cover_loading").addClass("active");
+    }
+
+    function hideLoading() {
+        $(".cover_loading").removeClass("active");
+    }
+
+</script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBNNrE7tuvdbalbsD2Yr8AE4ZPFOyYRgzs&libraries=geometry&callback=initMap" async defer></script>
 </body>
 </html>

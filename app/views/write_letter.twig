@@ -1,40 +1,65 @@
 <section id="page_send">
-    <div class="input_type_wrapper">
-        <label for="send_senderPhone_1" class="input_label">보내는 사람 번호</label>
-        <div class="phone_num_input_wrapper">
-            <div class="comp_select phone_num_input_1">
-                <select name="sender_phone_number_1" id="send_senderPhone_1">
-                    <option value="010">010</option>
-                </select>
-                <span class="ti-arrow-circle-down"></span>
-            </div>
-            <div class="phone_num_input_2">
-                <input type="number" maxlength="4" name="sender_phone_number_2" class="comp_text_input" id="send_senderPhone_2">
-            </div>
-            <div class="phone_num_input_3">
-                <input type="number" maxlength="4" name="sender_phone_number_3" class="comp_text_input" id="send_senderPhone_3">
+    <form id="write_letter_form" autocomplete="on">
+        <div class="input_type_wrapper">
+            <label for="send_senderPhone_1" class="input_label">보내는 사람 번호</label>
+            <div class="phone_num_input_wrapper">
+                <div class="comp_select phone_num_input_1">
+                    <select name="sender_phone_number_1" id="send_senderPhone_1">
+                        <option value="010" selected>010</option>
+                        <option value="011">011</option>
+                        <option value="016">016</option>
+                        <option value="017">017</option>
+                        <option value="018">018</option>
+                        <option value="019">019</option>
+                    </select>
+                    <span class="ti-arrow-circle-down"></span>
+                </div>
+                <div class="phone_num_input_2">
+                    <input type="text" maxlength="4" name="sender_phone_number_2" class="comp_text_input" />
+                </div>
+                <div class="phone_num_input_3">
+                    <input type="text" maxlength="4" name="sender_phone_number_3" class="comp_text_input" />
+                </div>
             </div>
         </div>
-    </div>
-    <article class="message_area_wrapper">
-        <div class="message_area">
-            <input type="text" class="title_input" placeholder="제목을 입력해주세요.">
-            <textarea
-                    name="mail_context"
-                    class="content_input js_auto_resize"
-                    placeholder="편지의 내용을 입력하세요."
-            ></textarea>
+        <div class="input_type_wrapper">
+            <label for="send_receiverPhone_1" class="input_label">받는 사람 번호</label>
+            <div class="phone_num_input_wrapper">
+                <div class="comp_select phone_num_input_1">
+                    <select name="receiver_phone_number_1" id="send_receiverPhone_1">
+                        <option value="010" selected>010</option>
+                        <option value="011">011</option>
+                        <option value="016">016</option>
+                        <option value="017">017</option>
+                        <option value="018">018</option>
+                        <option value="019">019</option>
+                    </select>
+                    <span class="ti-arrow-circle-down"></span>
+                </div>
+                <div class="phone_num_input_2">
+                    <input type="text" maxlength="4" pattern="^\d{3,4}$" name="receiver_phone_number_2" class="comp_text_input" required />
+                </div>
+                <div class="phone_num_input_3">
+                    <input type="text" maxlength="4" pattern="^\d{4}$" name="receiver_phone_number_3" class="comp_text_input" required />
+                </div>
+            </div>
         </div>
-    </article>
-    <div class="map_wrapper">
-        <div id="map" class="map_area"></div>
-    </div>
-    <div class="bottom_button_wrapper">
-        <button
-                type="button"
-                class="receive_button comp_button_red_46"
-        >
-            편지 남기기
-        </button>
-    </div>
+        <article class="message_area_wrapper">
+            <div class="message_area">
+                <input type="text" name="title" class="title_input" placeholder="편지의 제목을 입력해주세요." required>
+                <textarea
+                        name="content"
+                        class="content_input js_auto_resize"
+                        placeholder="편지의 내용을 입력해주세요."
+                        required
+                ></textarea>
+            </div>
+        </article>
+        <div class="map_wrapper">
+            <div id="map_for_write_letter" class="map_area"></div>
+        </div>
+        <div class="bottom_button_wrapper">
+            <input type="submit" class="receive_button comp_button_red_46" value="편지 남기기" />
+        </div>
+    </form>
 </section>

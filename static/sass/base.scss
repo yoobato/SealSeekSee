@@ -34,7 +34,7 @@ section[id^="page_"] {
   &.active { left: 0; }
 
   .message_area_wrapper {
-    width: 100%; padding: 20px 15px 10px 15px;
+    padding: 20px 15px 10px 15px;
     .message_area {
       background: url('../images/linedpaper.png') top left repeat;
       background-size: 412px 300px; padding: 10px;
@@ -119,7 +119,5 @@ section[id^="page_"] {
 }
 
 @import './home_style';
-@import './send_style';
 @import './receive_style';
-
 @import './loading';

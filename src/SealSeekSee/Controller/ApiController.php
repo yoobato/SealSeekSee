@@ -20,15 +20,10 @@ class ApiController implements ControllerProviderInterface
         /** @var $api \Silex\ControllerCollection */
         $api = $app['controllers_factory'];
 
-        // TODO: Route
+
+        $api->post('/letter/write', array($this, 'writeLetter'));
 
         return $api;
-    }
-
-    public function showWriteLetterPage(Request $req, Application $app)
-    {
-        $receiver_phone = $req->get('receiver_phone', '');
-        return $app['twig']->render('write_letter.twig', array('receiver_phone' => $receiver_phone));
     }
 
     public function writeLetter(Request $req, Application $app)
@@ -74,8 +69,6 @@ class ApiController implements ControllerProviderInterface
             $sms_message = '암호 단어는 ' . $w3w_address . ' 입니다!';
             SMSUtil::send($receiver_phone, $sms_message);
 
-            $app['session']->getFlashBag()->add('alert',
-                array('success' => '편지를 남겼습니다! 편지의 암호 단어는 ' . $w3w_address . ' 입니다.'));
             return Response::create('편지를 남겼습니다! 편지의 암호 단어는 ' . $w3w_address . ' 입니다.', Response::HTTP_OK);
         } catch (Exception $e) {
             return Response::create($e->getMessage(), Response::HTTP_INTERNAL_SERVER_ERROR);

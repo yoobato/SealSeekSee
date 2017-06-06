@@ -129,7 +129,6 @@ section[id^="page_"] {
   section[id^="page_"].active {
     left: 0; }
   section[id^="page_"] .message_area_wrapper {
-    width: 100%;
     padding: 20px 15px 10px 15px; }
     section[id^="page_"] .message_area_wrapper .message_area {
       background: url("../images/linedpaper.png") top left repeat;
@@ -419,7 +418,6 @@ section[id^="page_"] {
       width: 100%;
       margin-top: 5px; }
 
-/* ==================== 스타일 리셋 */
 /* ==================== 스타일 리셋 */
 /* ==================== 스타일 리셋 */
 .comp_button_dark_gray_46 {
