@@ -120,6 +120,12 @@ class ApiController implements ControllerProviderInterface
         if (empty($letter)) {
             return Response::create('편지가 없습니다.', Response::HTTP_INTERNAL_SERVER_ERROR);
         }
+
+        // 열어 본 날짜 업데이트
+        if (empty($letter->opened_date)) {
+            $letter = LetterFactory::updateOpenedDate($letter);
+        }
+
         return $app->json(array('letter' => $letter));
     }
 }
