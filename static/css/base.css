@@ -107,6 +107,17 @@ a, button {
       font-size: 20px;
       color: #5F6079;
       font-weight: bold; }
+  #header .nav_logo_text {
+    position: absolute;
+    top: 16px;
+    left: 50%;
+    width: 150px;
+    margin-left: -70px;
+    text-align: center;
+    color: #5F6079;
+    font-size: 25px;
+    font-weight: bold;
+    font-family: 'Nanum Pen Script', serif; }
 
 section[id^="page_"] {
   position: fixed;
