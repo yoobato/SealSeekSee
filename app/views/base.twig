@@ -113,7 +113,8 @@
             mapTypeControl: false,
             scaleControl: true,
             streetViewControl: false,
-            rotateControl: false
+            rotateControl: false,
+            gestureHandling: "cooperative"
         };
         mapForWriteLetter = new google.maps.Map(document.getElementById("map_for_write_letter"), mapOptions);
         mapForFindLetter = new google.maps.Map(document.getElementById("map_for_find_letter"), mapOptions);
@@ -239,11 +240,6 @@
         // Start watching
         geolocationWatchID = navigator.geolocation.watchPosition(function(position) {
             console.log("[Geolocation] Watching... (" + position.coords.latitude + ", " + position.coords.longitude + ") (" + position.coords.accuracy + "m)");
-            // 오차 범위가 1km 보다 큰 경우 값을 무시한다.
-            if (position.coords.accuracy > 1000) {
-                return;
-            }
-
             handleMyLocationUpdate(position);
         });
     }
@@ -255,12 +251,12 @@
             lng: position.coords.longitude
         });
 
-        // 내 위치와 편지 위치와의 거리 계산. 200m 이내인 경우에만 편지 읽을 수 있게
+        // 내 위치와 편지 위치와의 거리 계산. 1000m 이내인 경우에만 편지 읽을 수 있게
         var distance = google.maps.geometry.spherical.computeDistanceBetween(myMarker.getPosition(), letterMarker.getPosition());
         console.log("[GooleMap] Distance: " + distance + "m");
 
         var $readLetterButton = $("#read_letter_button");
-        if (distance <= 200) {
+        if (distance <= 1000) {
             $readLetterButton.prop("disabled", false);
         } else {
             $readLetterButton.prop("disabled", true);
