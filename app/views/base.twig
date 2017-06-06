@@ -433,20 +433,9 @@
             });
         });
 
+        // 높이 보정... 이거 안하면 iOS Safari에서 난리남...
         var documentHeight = $(window).innerHeight();
         $("section").css("height", documentHeight + "px");
-    });
-    
-    $(document).ready(function() {
-        $(window).on("load", function() {
-            var documentHeight = $(window).innerHeight();
-            $("section").css("height", documentHeight + "px");
-        });
-
-        $("section").on("scroll", function() {
-            var documentHeight = $(window).innerHeight();
-            $(this).css("height", documentHeight + "px");
-        });
     });
 
     function showLoading() {

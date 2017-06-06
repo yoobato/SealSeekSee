@@ -44,7 +44,7 @@ section[id^="page_"] {
   backface-visibility: hidden;
   width: 100%; height: 100vh; display: block;
   padding-top: $top_nav_header_height;
-  background: #F9FAFB; overflow-y: scroll; overflow-x: hidden;
+  background: #F9FAFB; overflow-y: auto; overflow-x: hidden;
   @include transition(left .2s);
   @include box_sizing(border-box);
   &.active { left: 0; }
