@@ -38,6 +38,7 @@
         };
 
         $(function() {
+            {# TODO: 홈으로 올 때 모든 데이터 초기화? #}
             $('.js_page_toggle').on('click', function(e) {
                 var _target = $(e.target);
                 if (!_target.is('button')) {
@@ -79,6 +80,8 @@
     // 연세대학교 제3공학관
     var writeLetterLat = 37.561741;
     var writeLetterLng = 126.935105;
+
+    var letter = null;
 
     function initMap() {
         var mapForWriteLetter = new google.maps.Map(document.getElementById("map_for_write_letter"), {
@@ -178,6 +181,47 @@
 
                 $title.val("");
                 $content.val("");
+            }).fail(function (jqXHR) {
+                hideLoading();
+                alert(jqXHR.responseText);
+            });
+        });
+
+        $("#find_letter_form").submit(function(event) {
+            event.preventDefault();
+
+            var $form = $(this);
+
+            var $receiverPhone1 = $form.find("select[name='receiver_phone_number_1']");
+            var $receiverPhone2 = $form.find("input[name='receiver_phone_number_2']");
+            var $receiverPhone3 = $form.find("input[name='receiver_phone_number_3']");
+            var receiverPhone = $receiverPhone1.val() + "-" + $receiverPhone2.val() + "-" + $receiverPhone3.val();
+
+            var $word1 = $form.find("input[name='location_word_1']");
+            var $word2 = $form.find("input[name='location_word_2']");
+            var $word3 = $form.find("input[name='location_word_3']");
+
+            var params = {
+                receiver_phone: receiverPhone,
+                word1: $word1.val(),
+                word2: $word2.val(),
+                word3: $word3.val()
+            };
+
+            showLoading();
+            $.post("/api/letter/find", params, function(data) {
+                hideLoading();
+                letter = data.letter;
+                activePage("find_on_map");
+
+                // 초기화
+                $receiverPhone1.val("010");
+                $receiverPhone2.val("");
+                $receiverPhone3.val("");
+
+                $word1.val("");
+                $word2.val("");
+                $word3.val("");
             }).fail(function (jqXHR) {
                 hideLoading();
                 alert(jqXHR.responseText);

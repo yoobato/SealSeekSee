@@ -22,6 +22,7 @@ class ApiController implements ControllerProviderInterface
 
 
         $api->post('/letter/write', array($this, 'writeLetter'));
+        $api->post('/letter/find', array($this, 'findLetter'));
 
         return $api;
     }
@@ -109,34 +110,5 @@ class ApiController implements ControllerProviderInterface
         } catch (\Exception $e) {
             return Response::create($e->getMessage(), Response::HTTP_INTERNAL_SERVER_ERROR);
         }
-    }
-
-    public function showFindLetterMapPage(Request $req, Application $app)
-    {
-        $letter_id = $req->get('letter_id', -1);
-        $letter = LetterFactory::get($letter_id);
-        if (empty($letter)) {
-            $app['session']->getFlashBag()->add('alert', array('danger' => '휴대전화 번호와 암호 단어를 입력해주세요.'));
-            return $app->redirect('/letter/find');
-        }
-
-        return $app['twig']->render('find_letter_map.twig', array('letter' => $letter));
-    }
-
-    public function showReadLetterPage(Request $req, Application $app)
-    {
-        $letter_id = $req->get('letter_id', -1);
-        $letter = LetterFactory::get($letter_id);
-        if (empty($letter)) {
-            $app['session']->getFlashBag()->add('alert', array('danger' => '휴대전화 번호와 암호 단어를 입력해주세요.'));
-            return $app->redirect('/letter/find');
-        }
-
-        // 열어 본 날짜 업데이트
-        if (empty($letter->opened_date)) {
-            $letter = LetterFactory::updateOpenedDate($letter);
-        }
-
-        return $app['twig']->render('/read_letter.twig', array('letter' => $letter));
     }
 }

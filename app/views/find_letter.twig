@@ -1,36 +1,37 @@
 <section id="page_receive">
-    <div class="input_type_wrapper">
-        <label for="receive_senderPhone_1" class="input_label">보내는 사람 번호</label>
-        <div class="phone_num_input_wrapper">
-            <div class="comp_select phone_num_input_1">
-                <select name="sender_phone_number_1" id="receive_senderPhone_1">
-                    <option value="010">010</option>
-                </select>
-                <span class="ti-arrow-circle-down"></span>
-            </div>
-            <div class="phone_num_input_2">
-                <input type="number" maxlength="4" name="sender_phone_number_2" class="comp_text_input" id="receive_senderPhone_2">
-            </div>
-            <div class="phone_num_input_3">
-                <input type="number" maxlength="4" name="sender_phone_number_3" class="comp_text_input" id="receive_senderPhone_3">
+    <form id="find_letter_form">
+        <div class="input_type_wrapper">
+            <label for="receive_senderPhone_1" class="input_label">내 번호</label>
+            <div class="phone_num_input_wrapper">
+                <div class="comp_select phone_num_input_1">
+                    <select name="receiver_phone_number_1" id="receive_senderPhone_1">
+                        <option value="010" selected>010</option>
+                        <option value="011">011</option>
+                        <option value="016">016</option>
+                        <option value="017">017</option>
+                        <option value="018">018</option>
+                        <option value="019">019</option>
+                    </select>
+                    <span class="ti-arrow-circle-down"></span>
+                </div>
+                <div class="phone_num_input_2">
+                    <input type="number" maxlength="4" pattern="^\d{3,4}$" name="receiver_phone_number_2" class="comp_text_input" required>
+                </div>
+                <div class="phone_num_input_3">
+                    <input type="number" maxlength="4" pattern="^\d{4}$" name="receiver_phone_number_3" class="comp_text_input" required>
+                </div>
             </div>
         </div>
-    </div>
-    <div class="input_type_wrapper">
-        <label for="locationWord1" class="input_label">위치 단어</label>
-        <div class="location_words">
-            <input name="location_word_1" class="comp_text_input" id="locationWord1">
-            <input name="location_word_2" class="comp_text_input" id="locationWord2">
-            <input name="location_word_3" class="comp_text_input" id="locationWord3">
+        <div class="input_type_wrapper">
+            <label for="location_word_1" class="input_label">암호 단어</label>
+            <div class="location_words">
+                <input type="text" name="location_word_1" class="comp_text_input" id="location_word_1" />
+                <input type="text" name="location_word_2" class="comp_text_input" required />
+                <input type="text" name="location_word_3" class="comp_text_input" required />
+            </div>
         </div>
-    </div>
-    <div class="bottom_button_wrapper">
-        <button
-                type="button"
-                class="receive_button comp_button_red_46 js_page_toggle"
-                data-target="find_on_map"
-        >
-            편지 찾기
-        </button>
-    </div>
+        <div class="bottom_button_wrapper">
+            <input type="submit" class="receive_button comp_button_red_46" value="편지 찾기" />
+        </div>
+    </form>
 </section>
