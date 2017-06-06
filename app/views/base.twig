@@ -113,19 +113,30 @@
     }
 
     function initMapForWriteLetter() {
-        if (navigator.geolocation) {
-            navigator.geolocation.getCurrentPosition(function(position) {
-                writeLetterCoords.lat = position.coords.latitude;
-                writeLetterCoords.lng = position.coords.longitude;
-                mapForWriteLetter.setCenter(writeLetterCoords);
-            });
-        }
+        showLoading();
 
         mapForWriteLetter.addListener("center_changed", function() {
             var center = mapForWriteLetter.getCenter();
             writeLetterCoords.lat = center.lat();
             writeLetterCoords.lng = center.lng();
         });
+
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(function(position) {
+                console.log("[Geolocation] Get current position (" + position.coords.latitude + ", " + position.coords.longitude + ") (" + position.coords.accuracy + "m)");
+
+                writeLetterCoords.lat = position.coords.latitude;
+                writeLetterCoords.lng = position.coords.longitude;
+                mapForWriteLetter.setCenter(writeLetterCoords);
+
+                hideLoading();
+            }, function() {
+                console.log("[Geolocation] Get current position failed");
+                hideLoading();
+            });
+        } else {
+            hideLoading();
+        }
     }
 
     function initMapForFindLetter() {
@@ -140,7 +151,7 @@
 
         if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition(function (position) {
-                console.log("[Geolocation] Get... (" + position.coords.latitude + ", " + position.coords.longitude + ") (" + position.coords.accuracy + "m)");
+                console.log("[Geolocation] Get current position (" + position.coords.latitude + ", " + position.coords.longitude + ") (" + position.coords.accuracy + "m)");
 
                 var myPosition = {
                     lat: position.coords.latitude,
@@ -293,7 +304,7 @@
                 writeLetterCoords.lat = yonseiCoords.lat;
                 writeLetterCoords.lng = yonseiCoords.lng;
                 mapForWriteLetter.setCenter(writeLetterCoords);
-            }).fail(function (jqXHR) {
+            }).fail(function(jqXHR) {
                 hideLoading();
                 alert(jqXHR.responseText);
             });
@@ -334,22 +345,70 @@
                 $word1.val("");
                 $word2.val("");
                 $word3.val("");
-            }).fail(function (jqXHR) {
+            }).fail(function(jqXHR) {
                 hideLoading();
                 alert(jqXHR.responseText);
             });
         });
 
         $("#read_letter_button").click(function() {
-            stopWatchGeolocationForFindLetter();
-            console.log("[Geolocation] Watching stopped");
-            {# TODO: Read API (opened date update) #}
-            letterMetadata = null;
+            var params = {
+                letter_id: letterMetadata.id
+            };
 
-            letterMarker.setMap(null);
-            myMarker.setMap(null);
+            showLoading();
+            $.post("/api/letter/read", params, function(data) {
+                stopWatchGeolocationForFindLetter();
+                console.log("[Geolocation] Watching stopped");
 
-            activePage("read");
+                var letter = data.letter;
+                $("#read_letter_title").text(letter.title);
+                $("#read_letter_content").text(letter.message);
+
+                var $replyLetterButton = $("#reply_letter_button");
+                // Remove previous click event handler
+                $replyLetterButton.off("click");
+
+                var $replyLetterContainer = $("#reply_letter_container");
+                if (letter.sender_phone === null || letter.sender_phone.length === 0) {
+                    $replyLetterContainer.hide();
+                } else {
+                    $replyLetterContainer.show();
+
+                    var senderPhoneComponents = letter.sender_phone.split("-");
+                    var receiverPhoneComponents = letter.receiver_phone.split("-");
+
+                    $replyLetterButton.click(function() {
+                        // 미리 받는 사람, 보내는 사람 번호 setting 해놓음
+                        $("#write_letter_sender_phone_number_1").val(receiverPhoneComponents[0]);
+                        $("#write_letter_sender_phone_number_2").val(receiverPhoneComponents[1]);
+                        $("#write_letter_sender_phone_number_3").val(receiverPhoneComponents[2]);
+
+                        $("#write_letter_receiver_phone_number_1").val(senderPhoneComponents[0]);
+                        $("#write_letter_receiver_phone_number_2").val(senderPhoneComponents[1]);
+                        $("#write_letter_receiver_phone_number_3").val(senderPhoneComponents[2]);
+
+                        {# TODO: 기존 read 데이터 초기화 #}
+
+                        initMapForWriteLetter();
+                        activePage("send");
+                    });
+                }
+
+                hideLoading();
+                activePage("read");
+
+                // 초기화
+                letterMetadata = null;
+
+                letterMarker.setMap(null);
+                letterMarker = null;
+                myMarker.setMap(null);
+                myMarker = null;
+            }).fail(function (jqXHR) {
+                hideLoading();
+                alert(jqXHR.responseText);
+            });
         });
     });
 

@@ -23,6 +23,7 @@ class ApiController implements ControllerProviderInterface
 
         $api->post('/letter/write', array($this, 'writeLetter'));
         $api->post('/letter/find', array($this, 'findLetter'));
+        $api->post('/letter/read', array($this, 'readLetter'));
 
         return $api;
     }
@@ -110,5 +111,15 @@ class ApiController implements ControllerProviderInterface
         } catch (\Exception $e) {
             return Response::create($e->getMessage(), Response::HTTP_INTERNAL_SERVER_ERROR);
         }
+    }
+
+    public function readLetter(Request $req, Application $app)
+    {
+        $letter_id = $req->get('letter_id', -1);
+        $letter = LetterFactory::get($letter_id);
+        if (empty($letter)) {
+            return Response::create('편지가 없습니다.', Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
+        return $app->json(array('letter' => $letter));
     }
 }
