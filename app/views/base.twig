@@ -33,12 +33,19 @@
     <script>
         var activePage = function(target) {
             $('#header').toggleClass('disactive', (target === 'home'));
+            if (target === 'home') {
+                // 홈으로 돌아온 경우 모든 데이터 초기화
+                resetAllDataInput();
+            } else if (target == 'send') {
+                // autosize 업데이트 (다시 minHeight으로 가도록)
+                autosize.update($('.js_auto_resize'));
+            }
+
             $("[id^=page_]").removeClass('active');
             $("#page_" + target).addClass('active')
         };
 
         $(function() {
-            {# TODO: 홈으로 올 때 모든 데이터 초기화? #}
             $('.js_page_toggle').on('click', function(e) {
                 var _target = $(e.target);
                 if (!_target.is('button')) {
@@ -54,9 +61,8 @@
 </head>
 <body>
 <header id="header" class="top_nav_header disactive">
-    {# TODO: 뒤로가기 이미지 교체. 홈 버튼으로 바꾸자 #}
     <button class="history_back_button js_page_toggle" type="button" data-target="home">
-        <span class="history_back_button_icon ti-angle-left"></span>
+        <span class="history_back_button_icon ti-home"></span>
     </button>
 </header>
 {% include 'index.twig' %}
@@ -113,29 +119,29 @@
     }
 
     function initMapForWriteLetter() {
-        showLoading();
+        google.maps.event.clearListeners(mapForWriteLetter, "center_changed");
+
+        var centerChangedAlready = false;
 
         mapForWriteLetter.addListener("center_changed", function() {
             var center = mapForWriteLetter.getCenter();
             writeLetterCoords.lat = center.lat();
             writeLetterCoords.lng = center.lng();
+            centerChangedAlready = true;
         });
 
         if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition(function(position) {
                 console.log("[Geolocation] Get current position (" + position.coords.latitude + ", " + position.coords.longitude + ") (" + position.coords.accuracy + "m)");
-
-                writeLetterCoords.lat = position.coords.latitude;
-                writeLetterCoords.lng = position.coords.longitude;
-                mapForWriteLetter.setCenter(writeLetterCoords);
-
-                hideLoading();
-            }, function() {
-                console.log("[Geolocation] Get current position failed");
-                hideLoading();
+                // 사용자가 먼저 지도를 움직인 경우에는 현 위치를 적용하지 않는다.
+                if (centerChangedAlready === false) {
+                    var myPosition = {
+                        lat: position.coords.latitude,
+                        lng: position.coords.longitude
+                    };
+                    mapForWriteLetter.setCenter(myPosition);
+                }
             });
-        } else {
-            hideLoading();
         }
     }
 
@@ -231,6 +237,7 @@
     function stopWatchGeolocationForFindLetter() {
         if (geolocationWatchID !== null) {
             navigator.geolocation.clearWatch(geolocationWatchID);
+            console.log("[Geolocation] Watching stopped");
             geolocationWatchID = null;
         }
     }
@@ -249,10 +256,12 @@
             var $senderPhone1 = $form.find("select[name='sender_phone_number_1']");
             var $senderPhone2 = $form.find("input[name='sender_phone_number_2']");
             var $senderPhone3 = $form.find("input[name='sender_phone_number_3']");
+            // 보내는 사람 번호를 입력한 경우, 보내는 사람 번호를 사용하는 것으로 간주
             var usingSenderPhone = $senderPhone2.val().length > 0 || $senderPhone3.val().length > 0;
 
             var senderPhone = "";
             if (usingSenderPhone) {
+                // 보내는 사람 번호는 HTML pattern 으로 체크하지 않고, js로 체크.
                 if (/^\d{3,4}$/.test($senderPhone2.val()) === false) {
                     alert("보내는 사람 번호가 올바르지 않습니다.");
                     $senderPhone2.focus();
@@ -288,22 +297,6 @@
                 hideLoading();
                 alert(jqXHR.responseText);
                 activePage("home");
-
-                // 초기화
-                $senderPhone1.val("010");
-                $senderPhone2.val("");
-                $senderPhone3.val("");
-
-                $receiverPhone1.val("010");
-                $receiverPhone2.val("");
-                $receiverPhone3.val("");
-
-                $title.val("");
-                $content.val("");
-
-                writeLetterCoords.lat = yonseiCoords.lat;
-                writeLetterCoords.lng = yonseiCoords.lng;
-                mapForWriteLetter.setCenter(writeLetterCoords);
             }).fail(function(jqXHR) {
                 hideLoading();
                 alert(jqXHR.responseText);
@@ -337,14 +330,12 @@
                 initMapForFindLetter();
                 activePage("find_on_map");
 
-                // 초기화
-                $receiverPhone1.val("010");
-                $receiverPhone2.val("");
-                $receiverPhone3.val("");
-
-                $word1.val("");
-                $word2.val("");
-                $word3.val("");
+                // 데이터 초기화
+                $("form").each(function() {
+                    if (this.id === "find_letter_form") {
+                        this.reset();
+                    }
+                });
             }).fail(function(jqXHR) {
                 hideLoading();
                 alert(jqXHR.responseText);
@@ -358,16 +349,13 @@
 
             showLoading();
             $.post("/api/letter/read", params, function(data) {
-                stopWatchGeolocationForFindLetter();
-                console.log("[Geolocation] Watching stopped");
-
                 var letter = data.letter;
-                $("#read_letter_title").text(letter.title);
-                $("#read_letter_content").text(letter.message);
 
-                var $replyLetterButton = $("#reply_letter_button");
-                // Remove previous click event handler
-                $replyLetterButton.off("click");
+                var $readLetterTitle = $("#read_letter_title");
+                var $readLetterContent = $("#read_letter_content");
+
+                $readLetterTitle.text(letter.title);
+                $readLetterContent.text(letter.message);
 
                 var $replyLetterContainer = $("#reply_letter_container");
                 if (letter.sender_phone === null || letter.sender_phone.length === 0) {
@@ -378,7 +366,7 @@
                     var senderPhoneComponents = letter.sender_phone.split("-");
                     var receiverPhoneComponents = letter.receiver_phone.split("-");
 
-                    $replyLetterButton.click(function() {
+                    $("#reply_letter_button").click(function() {
                         // 미리 받는 사람, 보내는 사람 번호 setting 해놓음
                         $("#write_letter_sender_phone_number_1").val(receiverPhoneComponents[0]);
                         $("#write_letter_sender_phone_number_2").val(receiverPhoneComponents[1]);
@@ -388,7 +376,11 @@
                         $("#write_letter_receiver_phone_number_2").val(senderPhoneComponents[1]);
                         $("#write_letter_receiver_phone_number_3").val(senderPhoneComponents[2]);
 
-                        {# TODO: 기존 read 데이터 초기화 #}
+                        // 편지 읽기 화면 초기화
+                        $readLetterTitle.text("");
+                        $readLetterContent.text("");
+                        $replyLetterContainer.hide();
+                        $(this).off("click");
 
                         initMapForWriteLetter();
                         activePage("send");
@@ -398,13 +390,18 @@
                 hideLoading();
                 activePage("read");
 
-                // 초기화
-                letterMetadata = null;
+                // 데이터 초기화
+                if (letterMarker !== null) {
+                    letterMarker.setMap(null);
+                    letterMarker = null;
+                }
+                if (myMarker !== null) {
+                    myMarker.setMap(null);
+                    myMarker = null;
+                }
 
-                letterMarker.setMap(null);
-                letterMarker = null;
-                myMarker.setMap(null);
-                myMarker = null;
+                stopWatchGeolocationForFindLetter();
+                $("#read_letter_button").prop("disabled", true);
             }).fail(function (jqXHR) {
                 hideLoading();
                 alert(jqXHR.responseText);
@@ -420,6 +417,31 @@
         $(".cover_loading").removeClass("active");
     }
 
+    function resetAllDataInput() {
+        // Form 데이터 초기화
+        $("form").each(function() {
+            this.reset();
+        });
+
+        // 지도에서 편지 찾기 초기화
+        letterMetadata = null;
+        if (letterMarker !== null) {
+            letterMarker.setMap(null);
+            letterMarker = null;
+        }
+        if (myMarker !== null) {
+            myMarker.setMap(null);
+            myMarker = null;
+        }
+        stopWatchGeolocationForFindLetter();
+        $("#read_letter_button").prop("disabled", true);
+
+        // 편지 읽기 화면 초기화
+        $("#read_letter_title").text("");
+        $("#read_letter_content").text("");
+        $("#reply_letter_container").hide();
+        $("#reply_letter_button").off("click");
+    }
 </script>
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBNNrE7tuvdbalbsD2Yr8AE4ZPFOyYRgzs&libraries=geometry&callback=initMaps" async defer></script>
 </body>

@@ -1,8 +1,6 @@
 <?php
 namespace SealSeekSee\Entity;
 
-// TODO: 편지에 사진도 추가할 수 있게 할까? DB에 letter_attach 이런 테이블 추가해야 할듯
-
 /**
  * @Entity @Table(name="letter")
  */
