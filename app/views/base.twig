@@ -60,29 +60,30 @@
     </script>
 </head>
 <body>
-<header id="header" class="top_nav_header disactive">
-    <button class="history_back_button js_page_toggle" type="button" data-target="home">
-        <span class="history_back_button_icon ti-home"></span>
-    </button>
-    <span class="nav_logo_text">Seal Seek See</span>
-</header>
-{% include 'index.twig' %}
+<div class="main_wrapper">
+    <header id="header" class="top_nav_header disactive">
+        <button class="history_back_button js_page_toggle" type="button" data-target="home">
+            <span class="history_back_button_icon ti-home"></span>
+        </button>
+        <span class="nav_logo_text">Seal Seek See</span>
+    </header>
+    {% include 'index.twig' %}
 
-{% include 'write_letter.twig' %}
+    {% include 'write_letter.twig' %}
 
-{% include 'find_letter.twig' %}
+    {% include 'find_letter.twig' %}
 
-{% include 'find_letter_map.twig' %}
+    {% include 'find_letter_map.twig' %}
 
-{% include 'read_letter.twig' %}
+    {% include 'read_letter.twig' %}
 
-<div class="cover_loading">
-    <div class="spinner">
-        <div class="dot1"></div>
-        <div class="dot2"></div>
+    <div class="cover_loading">
+        <div class="spinner">
+            <div class="dot1"></div>
+            <div class="dot2"></div>
+        </div>
     </div>
 </div>
-
 <script type="text/javascript">
     // 연세대학교 제3공학관
     var yonseiCoords = {
