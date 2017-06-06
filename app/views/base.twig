@@ -434,6 +434,20 @@
         });
     });
 
+    $(document).ready(function() {
+        $(window).on("load", function() {
+            var documentHeight = $(window).innerHeight();
+            console.log("Height: " + documentHeight);
+            $("section").css("height", documentHeight + "px");
+        });
+
+        $("section").on("scroll", function() {
+            var documentHeight = $(window).innerHeight();
+            console.log("Height: " + documentHeight);
+            $(this).css("height", documentHeight + "px");
+        });
+    });
+
     function showLoading() {
         $(".cover_loading").addClass("active");
     }
