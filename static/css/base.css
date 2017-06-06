@@ -180,7 +180,10 @@ section[id^="page_"] {
       background-color: #e9e9e9; }
   section[id^="page_"] .map_wrapper2 {
     padding: 15px;
-    height: calc(100% - 15px - 15px - 52px - 15px); }
+    height: 300px;
+    height: -webkit-calc(100% - 97px);
+    height: -moz-calc(100% - 97px);
+    height: calc(100% - 97px); }
     section[id^="page_"] .map_wrapper2 .map_area2 {
       display: block;
       width: 100%;
