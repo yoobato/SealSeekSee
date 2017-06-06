@@ -16,15 +16,15 @@
     <style type="text/css">
         /* 편지 쓸 때, 지도 중간에 뜨는 마커 추가 */
         #map_for_write_letter:after {
-            width: 22px;
-            height: 40px;
+            width: 44px;
+            height: 44px;
             display: block;
             content: ' ';
             position: absolute;
             top: 50%; left: 50%;
-            margin: -40px 0 0 -11px;
-            background: url('/static/images/spotlight-poi_hdpi.png');
-            background-size: 22px 40px;
+            margin: -22px 0 0 -22px;
+            background: url('/static/images/ic_marker.png');
+            background-size: 44px 44px;
             pointer-events: none;
         }
     </style>
@@ -151,9 +151,19 @@
             lat: Number(letterMetadata.latitude),
             lng: Number(letterMetadata.longitude)
         };
+
+
+        var letterMarkerIcon = {
+            url: "/static/images/ic_envelope.png",
+            scaledSize: new google.maps.Size(36, 36),
+            origin: new google.maps.Point(0,0),
+            anchor: new google.maps.Point(0, 0)
+        };
         letterMarker = new google.maps.Marker({
             position: letterPosition,
-            map: mapForFindLetter
+            map: mapForFindLetter,
+            animation: google.maps.Animation.BOUNCE,
+            icon: letterMarkerIcon
         });
 
         if (navigator.geolocation) {
@@ -165,10 +175,16 @@
                     lng: position.coords.longitude
                 };
 
+                var myMarkerIcon = {
+                    url: "/static/images/ic_user.png",
+                    scaledSize: new google.maps.Size(36, 36),
+                    origin: new google.maps.Point(0,0),
+                    anchor: new google.maps.Point(0, 0)
+                };
                 myMarker = new google.maps.Marker({
                     position: myPosition,
                     map: mapForFindLetter,
-                    icon: 'https://maps.google.com/mapfiles/kml/shapes/library_maps.png'
+                    icon: myMarkerIcon
                 });
 
                 var bounds = new google.maps.LatLngBounds();
@@ -239,12 +255,12 @@
             lng: position.coords.longitude
         });
 
-        // 내 위치와 편지 위치와의 거리 계산. 500m 이내인 경우에만 편지 읽을 수 있게
+        // 내 위치와 편지 위치와의 거리 계산. 200m 이내인 경우에만 편지 읽을 수 있게
         var distance = google.maps.geometry.spherical.computeDistanceBetween(myMarker.getPosition(), letterMarker.getPosition());
         console.log("[GooleMap] Distance: " + distance + "m");
 
         var $readLetterButton = $("#read_letter_button");
-        if (distance <= 500) {
+        if (distance <= 200) {
             $readLetterButton.prop("disabled", false);
         } else {
             $readLetterButton.prop("disabled", true);
