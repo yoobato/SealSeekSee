@@ -6,8 +6,9 @@
 
 $top_nav_header_height: 60px;
 #header {
-  position: absolute; top: 0; left: 0; z-index: 9999;
-  width: 100%; height: $top_nav_header_height;
+  position: fixed; top: 0; left: 0; z-index: 9999;
+  -webkit-backface-visibility: hidden;
+  width: 100vw; height: $top_nav_header_height;
   background: #fff;
   $shadow_red: red($dark_blue_1);
   $shadow_blue: blue($dark_blue_1);
@@ -37,7 +38,8 @@ $top_nav_header_height: 60px;
 }
 
 section[id^="page_"] {
-  position: absolute; z-index: 2; top: 0; left: 100%;
+  position: fixed; z-index: 2; top: 0; left: 100%;
+  -webkit-backface-visibility: hidden;
   width: 100%; height: 100vh; display: block;
   padding-top: $top_nav_header_height;
   background: #F9FAFB; overflow-y: auto; overflow-x: hidden;
