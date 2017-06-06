@@ -432,18 +432,19 @@
                 alert(jqXHR.responseText);
             });
         });
-    });
 
+        var documentHeight = $(window).innerHeight();
+        $("section").css("height", documentHeight + "px");
+    });
+    
     $(document).ready(function() {
         $(window).on("load", function() {
             var documentHeight = $(window).innerHeight();
-            console.log("Height: " + documentHeight);
             $("section").css("height", documentHeight + "px");
         });
 
         $("section").on("scroll", function() {
             var documentHeight = $(window).innerHeight();
-            console.log("Height: " + documentHeight);
             $(this).css("height", documentHeight + "px");
         });
     });
