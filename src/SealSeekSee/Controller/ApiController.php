@@ -106,7 +106,7 @@ class ApiController implements ControllerProviderInterface
             // 가장 최근 편지 1개만 사용한다.
             $letter = $letters[0];
 
-            return $app->json(array('letter' => $letter));
+            return $app->json(array('letter_meta' => $letter->exportMetadataDTO()));
         } catch (\Exception $e) {
             return Response::create($e->getMessage(), Response::HTTP_INTERNAL_SERVER_ERROR);
         }

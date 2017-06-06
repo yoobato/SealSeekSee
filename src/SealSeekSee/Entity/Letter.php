@@ -72,4 +72,13 @@ class Letter
 
         $this->created_date = date('Y-m-d H:i:s');
     }
+
+    public function exportMetadataDTO()
+    {
+        $dto = new \stdClass();
+        $dto->id = $this->id;
+        $dto->latitude = $this->latitude;
+        $dto->longitude = $this->longitude;
+        return $dto;
+    }
 }

@@ -78,14 +78,28 @@
 
 <script type="text/javascript">
     // 연세대학교 제3공학관
-    var writeLetterLat = 37.561741;
-    var writeLetterLng = 126.935105;
+    var yonseiCoords = {
+        lat: 37.561741,
+        lng: 126.935105
+    };
 
-    var letter = null;
+    var writeLetterCoords = {
+        lat: yonseiCoords.lat,
+        lng: yonseiCoords.lng
+    };
 
-    function initMap() {
-        var mapForWriteLetter = new google.maps.Map(document.getElementById("map_for_write_letter"), {
-            center: {lat: writeLetterLat, lng: writeLetterLng},
+    var mapForWriteLetter = null;
+    var mapForFindLetter = null;
+
+    var myMarker = null;
+    var letterMarker = null;
+    var geolocationWatchID = null;
+
+    var letterMetadata = null;
+
+    function initMaps() {
+        var mapOptions = {
+            center: yonseiCoords,
             zoom: 16,
             mapTypeId: google.maps.MapTypeId.ROADMAP,
             zoomControl: true,
@@ -93,35 +107,129 @@
             scaleControl: true,
             streetViewControl: false,
             rotateControl: false
+        };
+        mapForWriteLetter = new google.maps.Map(document.getElementById("map_for_write_letter"), mapOptions);
+        mapForFindLetter = new google.maps.Map(document.getElementById("map_for_find_letter"), mapOptions);
+    }
+
+    function initMapForWriteLetter() {
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(function(position) {
+                writeLetterCoords.lat = position.coords.latitude;
+                writeLetterCoords.lng = position.coords.longitude;
+                mapForWriteLetter.setCenter(writeLetterCoords);
+            });
+        }
+
+        mapForWriteLetter.addListener("center_changed", function() {
+            var center = mapForWriteLetter.getCenter();
+            writeLetterCoords.lat = center.lat();
+            writeLetterCoords.lng = center.lng();
+        });
+    }
+
+    function initMapForFindLetter() {
+        var letterPosition = {
+            lat: Number(letterMetadata.latitude),
+            lng: Number(letterMetadata.longitude)
+        };
+        letterMarker = new google.maps.Marker({
+            position: letterPosition,
+            map: mapForFindLetter
         });
 
         if (navigator.geolocation) {
-            navigator.geolocation.getCurrentPosition(function(position) {
-                var pos = {
+            navigator.geolocation.getCurrentPosition(function (position) {
+                console.log("[Geolocation] Get... (" + position.coords.latitude + ", " + position.coords.longitude + ") (" + position.coords.accuracy + "m)");
+
+                var myPosition = {
                     lat: position.coords.latitude,
                     lng: position.coords.longitude
                 };
 
-                writeLetterLat = pos.lat;
-                writeLetterLng = pos.lng;
-                mapForWriteLetter.setCenter(pos);
-            }, function () {
+                myMarker = new google.maps.Marker({
+                    position: myPosition,
+                    map: mapForFindLetter,
+                    icon: 'https://maps.google.com/mapfiles/kml/shapes/library_maps.png'
+                });
+
+                var bounds = new google.maps.LatLngBounds();
+                bounds.extend(myPosition);
+                bounds.extend(letterPosition);
+                mapForFindLetter.fitBounds(bounds);
+
+                handleMyLocationUpdate(position);
+                hideLoading();
+
+                startWatchGelocationForFindLetter();
+            }, function (error) {
                 {# TODO: 우리 서비스 이용 못함 #}
-                console.log("HTML5 Geolocation failed (permission???)");
+                switch (error.code) {
+                    case error.PERMISSION_DENIED:
+                        console.log("Geolocation error: User denied the request for Geolocation.");
+                        break;
+                    case error.POSITION_UNAVAILABLE:
+                        console.log("Geolocation error: Location information is unavailable.");
+                        break;
+                    case error.TIMEOUT:
+                        console.log("Geolocation error: The request to get user location timed out.");
+                        break;
+                    default:
+                        console.log("Geolocation error: An unknown error occurred.");
+                        break;
+                }
             });
         } else {
             {# TODO: 우리 서비스 이용 못함 #}
-            console.log("HTML5 Geolocation not available");
+            console.log("Geolocation not available");
         }
+    }
 
-        mapForWriteLetter.addListener('center_changed', function() {
-            var center = mapForWriteLetter.getCenter();
-            writeLetterLat = center.lat();
-            writeLetterLng = center.lng();
+    function startWatchGelocationForFindLetter() {
+        // Start watching
+        geolocationWatchID = navigator.geolocation.watchPosition(function(position) {
+            console.log("[Geolocation] Watching... (" + position.coords.latitude + ", " + position.coords.longitude + ") (" + position.coords.accuracy + "m)");
+            // 오차 범위가 1km 보다 큰 경우 값을 무시한다.
+            if (position.coords.accuracy > 1000) {
+                return;
+            }
+
+            handleMyLocationUpdate(position);
         });
     }
 
+    function handleMyLocationUpdate(position) {
+        // 내 위치 업데이트
+        myMarker.setPosition({
+            lat: position.coords.latitude,
+            lng: position.coords.longitude
+        });
+
+        // 내 위치와 편지 위치와의 거리 계산. 500m 이내인 경우에만 편지 읽을 수 있게
+        var distance = google.maps.geometry.spherical.computeDistanceBetween(myMarker.getPosition(), letterMarker.getPosition());
+        console.log("[GooleMap] Distance: " + distance + "m");
+
+        var $readLetterButton = $("#read_letter_button");
+        if (distance <= 500) {
+            $readLetterButton.prop("disabled", false);
+        } else {
+            $readLetterButton.prop("disabled", true);
+        }
+    }
+
+    function stopWatchGeolocationForFindLetter() {
+        if (geolocationWatchID !== null) {
+            navigator.geolocation.clearWatch(geolocationWatchID);
+            geolocationWatchID = null;
+        }
+    }
+
     $(function() {
+        $("#write_letter_button").click(function() {
+            initMapForWriteLetter();
+            activePage("send");
+        });
+
         $("#write_letter_form").submit(function(event) {
             event.preventDefault();
 
@@ -160,8 +268,8 @@
                 receiver_phone: receiverPhone,
                 title: $title.val(),
                 message: $content.val(),
-                lat: writeLetterLat,
-                lng: writeLetterLng
+                lat: writeLetterCoords.lat,
+                lng: writeLetterCoords.lng
             };
 
             showLoading();
@@ -181,6 +289,10 @@
 
                 $title.val("");
                 $content.val("");
+
+                writeLetterCoords.lat = yonseiCoords.lat;
+                writeLetterCoords.lng = yonseiCoords.lng;
+                mapForWriteLetter.setCenter(writeLetterCoords);
             }).fail(function (jqXHR) {
                 hideLoading();
                 alert(jqXHR.responseText);
@@ -210,8 +322,8 @@
 
             showLoading();
             $.post("/api/letter/find", params, function(data) {
-                hideLoading();
-                letter = data.letter;
+                letterMetadata = data.letter_meta;
+                initMapForFindLetter();
                 activePage("find_on_map");
 
                 // 초기화
@@ -227,6 +339,18 @@
                 alert(jqXHR.responseText);
             });
         });
+
+        $("#read_letter_button").click(function() {
+            stopWatchGeolocationForFindLetter();
+            console.log("[Geolocation] Watching stopped");
+            {# TODO: Read API (opened date update) #}
+            letterMetadata = null;
+
+            letterMarker.setMap(null);
+            myMarker.setMap(null);
+
+            activePage("read");
+        });
     });
 
     function showLoading() {
@@ -238,6 +362,6 @@
     }
 
 </script>
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBNNrE7tuvdbalbsD2Yr8AE4ZPFOyYRgzs&libraries=geometry&callback=initMap" async defer></script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBNNrE7tuvdbalbsD2Yr8AE4ZPFOyYRgzs&libraries=geometry&callback=initMaps" async defer></script>
 </body>
 </html>

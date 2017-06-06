@@ -158,9 +158,9 @@ section[id^="page_"] {
         line-height: 28px;
         resize: none;
         overflow: hidden; }
-  section[id^="page_"] .map_wrapper {
-    padding: 15px; }
-    section[id^="page_"] .map_wrapper .map_area {
+  section[id^="page_"] .map_wrapper1 {
+    padding: 5px 15px 15px 15px; }
+    section[id^="page_"] .map_wrapper1 .map_area1 {
       display: block;
       width: 100%;
       height: 300px;
@@ -169,15 +169,28 @@ section[id^="page_"] {
       box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
       -webkit-box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
       background-color: #e9e9e9; }
+  section[id^="page_"] .map_wrapper2 {
+    padding: 15px;
+    height: calc(100% - 15px - 15px - 52px - 15px); }
+    section[id^="page_"] .map_wrapper2 .map_area2 {
+      display: block;
+      width: 100%;
+      height: 100%;
+      border-radius: 3px;
+      -webkit-border-radius: 3px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      -webkit-box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      background-color: red; }
   section[id^="page_"] .bottom_button_wrapper {
     width: 100%;
-    padding: 15px;
+    padding: 0 15px 15px 15px;
     box-sizing: border-box;
     -moz-box-sizing: border-box;
     -webkit-box-sizing: border-box; }
     section[id^="page_"] .bottom_button_wrapper .comp_button_red_46 {
       display: block;
-      width: 100%; }
+      width: 100%;
+      height: 52px; }
 
 .input_type_wrapper {
   position: relative; }
