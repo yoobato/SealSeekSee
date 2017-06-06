@@ -50,8 +50,6 @@ iframe, fieldset, img {
 button {
   -webkit-appearance: none;
   -moz-appearance: none;
-  -webkit-tap-highlight-color: transparent;
-  -webkit-tap-highlight-color: transparent;
   cursor: pointer;
   border: none;
   background: none;
@@ -80,7 +78,7 @@ input[type="checkbox"], input[type="radio"] {
   box-sizing: border-box;
   padding: 0; }
 
-a, button {
+a, input, button, textarea, select {
   -webkit-tap-highlight-color: transparent;
   -webkit-tap-highlight-color: transparent; }
 
@@ -630,7 +628,7 @@ section[id^="page_"] {
 
 #page_receive .bottom_button_wrapper {
   position: absolute;
-  bottom: 10px;
+  bottom: 15px;
   left: 0; }
 
 .cover_loading {

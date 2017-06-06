@@ -225,7 +225,6 @@
 
   button {
     -webkit-appearance: none; -moz-appearance: none;
-    -webkit-tap-highlight-color: rgba(0, 0, 0, 0); -webkit-tap-highlight-color: transparent;
     cursor: pointer; border: none; background: none; overflow: visible;
   }
 
@@ -241,7 +240,9 @@
 
   input[type="checkbox"], input[type="radio"] { box-sizing: border-box; padding: 0; }
 
-  a, button { -webkit-tap-highlight-color: rgba(0, 0, 0, 0); -webkit-tap-highlight-color: transparent; }
+  a, input, button, textarea, select {
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0); -webkit-tap-highlight-color: transparent;
+  }
 }
 
 @mixin appearance_none() {
