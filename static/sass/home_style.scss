@@ -20,8 +20,9 @@
 }
 
 #page_home {
-  position: fixed; left: 0; top: 0;
+  position: fixed; left: auto; top: auto;
   -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
   background: #F9FAFB; padding-top: 0;
   z-index: 1;
   .logo_wrapper {
