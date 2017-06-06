@@ -107,7 +107,7 @@ a, input, button, textarea, select {
       font-weight: bold; }
   #header .nav_logo_text {
     position: absolute;
-    top: 16px;
+    top: 17px;
     left: 50%;
     width: 150px;
     margin-left: -70px;
@@ -311,7 +311,7 @@ section[id^="page_"] {
 .comp_select {
   position: relative;
   overflow: hidden;
-  height: 48px;
+  height: 49px;
   width: 200px;
   padding: 15px 52px 16px 15px;
   border: 2px solid #5F6079;
@@ -339,8 +339,8 @@ section[id^="page_"] {
   .comp_select.focus {
     border-color: #BE747F; }
   .comp_select select {
-    min-width: 120px;
-    width: 180%;
+    min-width: 70px;
+    width: 140%;
     border: none;
     font-size: 16px;
     color: #4E4D54;
@@ -366,6 +366,7 @@ section[id^="page_"] {
   -webkit-transition: border-color 0.2s, box-shadow 0.2s;
   /* For Safari 3.1 to 6.0 */
   transition: border-color 0.2s, box-shadow 0.2s;
+  height: 49px;
   display: inline-block;
   border: 2px solid #5F6079;
   background: transparent;
@@ -548,7 +549,7 @@ section[id^="page_"] {
 .comp_select {
   position: relative;
   overflow: hidden;
-  height: 48px;
+  height: 49px;
   width: 200px;
   padding: 15px 52px 16px 15px;
   border: 2px solid #5F6079;
@@ -576,8 +577,8 @@ section[id^="page_"] {
   .comp_select.focus {
     border-color: #BE747F; }
   .comp_select select {
-    min-width: 120px;
-    width: 180%;
+    min-width: 70px;
+    width: 140%;
     border: none;
     font-size: 16px;
     color: #4E4D54;
@@ -603,6 +604,7 @@ section[id^="page_"] {
   -webkit-transition: border-color 0.2s, box-shadow 0.2s;
   /* For Safari 3.1 to 6.0 */
   transition: border-color 0.2s, box-shadow 0.2s;
+  height: 49px;
   display: inline-block;
   border: 2px solid #5F6079;
   background: transparent;

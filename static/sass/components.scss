@@ -50,7 +50,7 @@
 
 .comp_select {
   position: relative; overflow: hidden;
-  height: 48px; width: 200px; padding: 15px 52px 16px 15px;
+  height: 49px; width: 200px; padding: 15px 52px 16px 15px;
   border: 2px solid #5F6079; background: transparent;
   @include box_sizing(border-box);
   @include border_radius(5px);
@@ -64,7 +64,7 @@
   &.disabled {background: $light_gray_2; }
   &.focus { border-color: $pastel_red_1; }
   select {
-    min-width: 120px; width: 180%; border: none; font-size: 16px; color: $dark_gray_1;
+    min-width: 70px; width: 140%; border: none; font-size: 16px; color: $dark_gray_1;
     background: transparent; margin-top: -2px;
     @include appearance_none();
     &:disabled { color: $light_gray_2; }
@@ -76,7 +76,7 @@
   @include appearance_none();
   @include box_sizing(border-box); @include border_radius(5px);
   @include transition((border-color .2s, box-shadow .2s));
-  display: inline-block; border: 2px solid #5F6079; background: transparent;
+  height: 49px; display: inline-block; border: 2px solid #5F6079; background: transparent;
   padding: 13px; font-size: 16px; line-height: 1.2em; color: $dark_gray_1;
   &:focus {
     border-color: $pastel_red_1; @include box_shadow(0 0 4px 0 rgba(31, 142, 230, .1));
