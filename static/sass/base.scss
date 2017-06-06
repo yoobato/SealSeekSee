@@ -6,7 +6,7 @@
 
 $top_nav_header_height: 60px;
 #header {
-  position: sticky; top: 0; left: 0; z-index: 9999;
+  position: fixed; top: 0; left: 0; z-index: 9999;
   width: 100%; height: $top_nav_header_height;
   background: #fff;
   $shadow_red: red($dark_blue_1);
