@@ -12,9 +12,9 @@ use Symfony\Component\HttpFoundation\Response;
 
 class ApiController implements ControllerProviderInterface
 {
-    // https://sealseeksee.yoobato.com/letter/find
-    const LETTER_CHECK_SHORTEN_URL = 'http://bit.ly/2sJjJXD';
-
+    // https://sealseeksee.yoobato.com
+    const LETTER_CHECK_SHORTEN_URL = 'http://bit.ly/2sPcEET';
+    
     public function connect(Application $app)
     {
         /** @var $api \Silex\ControllerCollection */
