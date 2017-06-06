@@ -436,7 +436,7 @@ section[id^="page_"] {
   #page_home .home_buttons {
     position: absolute;
     width: 100%;
-    bottom: 39px;
+    bottom: 0;
     left: 0;
     padding: 15px;
     box-sizing: border-box;
