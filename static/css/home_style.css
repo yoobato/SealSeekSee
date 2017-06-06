@@ -174,16 +174,16 @@
   #page_home .home_buttons {
     position: absolute;
     width: 100%;
-    bottom: 15px;
+    bottom: 44px;
     left: 0;
-    padding: 20px;
+    padding: 15px;
     box-sizing: border-box;
     -moz-box-sizing: border-box;
     -webkit-box-sizing: border-box; }
     #page_home .home_buttons .home_button {
       display: block;
       width: 100%;
-      margin-top: 5px; }
+      margin-bottom: 5px; }
   #page_home .envelope {
     position: relative;
     margin: 0 auto;

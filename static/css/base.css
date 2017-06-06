@@ -5,7 +5,7 @@ html, body, div, dl, dt, dd, ul, ol, li, h1, h2, h3, h4, h5, h6, pre, code, fiel
   padding: 0; }
 
 html, body {
-  position: sticky;
+  position: fixed;
   overflow: hidden; }
 
 article, aside, canvas, details, figcaption, figure, footer, header, nav, section, summary {
@@ -442,16 +442,16 @@ section[id^="page_"] {
   #page_home .home_buttons {
     position: absolute;
     width: 100%;
-    bottom: 15px;
+    bottom: 44px;
     left: 0;
-    padding: 20px;
+    padding: 15px;
     box-sizing: border-box;
     -moz-box-sizing: border-box;
     -webkit-box-sizing: border-box; }
     #page_home .home_buttons .home_button {
       display: block;
       width: 100%;
-      margin-top: 5px; }
+      margin-bottom: 5px; }
   #page_home .envelope {
     position: relative;
     margin: 0 auto;
