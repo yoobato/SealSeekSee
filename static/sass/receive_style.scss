@@ -1,9 +1,0 @@
-@import './mixins';
-@import './color_set';
-@import './components';
-
-#page_receive {
-  .bottom_button_wrapper {
-    position: absolute; bottom: 15px; left: 0;
-  }
-}

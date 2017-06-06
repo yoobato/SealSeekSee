@@ -4,10 +4,6 @@ html, body, div, dl, dt, dd, ul, ol, li, h1, h2, h3, h4, h5, h6, pre, code, fiel
   margin: 0;
   padding: 0; }
 
-html, body {
-  position: fixed;
-  overflow: hidden; }
-
 article, aside, canvas, details, figcaption, figure, footer, header, nav, section, summary {
   display: block;
   margin: 0;
@@ -121,12 +117,6 @@ a, input, button, textarea, select {
     font-weight: bold;
     font-family: 'Nanum Pen Script', serif; }
 
-.main_wrapper {
-  width: 100vw;
-  height: 100vh;
-  overflow-y: scroll;
-  -webkit-overflow-scrolling: touch; }
-
 section[id^="page_"] {
   position: fixed;
   z-index: 2;
@@ -191,9 +181,9 @@ section[id^="page_"] {
   section[id^="page_"] .map_wrapper2 {
     padding: 15px;
     height: 300px;
-    height: -webkit-calc(100% - 97px);
-    height: -moz-calc(100% - 97px);
-    height: calc(100% - 97px); }
+    height: -webkit-calc(100% - 112px);
+    height: -moz-calc(100% - 112px);
+    height: calc(100% - 112px); }
     section[id^="page_"] .map_wrapper2 .map_area2 {
       display: block;
       width: 100%;
@@ -205,7 +195,7 @@ section[id^="page_"] {
       background-color: red; }
   section[id^="page_"] .bottom_button_wrapper {
     width: 100%;
-    padding: 0 15px 15px 15px;
+    padding: 15px 15px 15px 15px;
     box-sizing: border-box;
     -moz-box-sizing: border-box;
     -webkit-box-sizing: border-box; }
@@ -442,7 +432,7 @@ section[id^="page_"] {
   #page_home .home_buttons {
     position: absolute;
     width: 100%;
-    bottom: 44px;
+    bottom: 39px;
     left: 0;
     padding: 15px;
     box-sizing: border-box;
@@ -451,7 +441,7 @@ section[id^="page_"] {
     #page_home .home_buttons .home_button {
       display: block;
       width: 100%;
-      margin-bottom: 5px; }
+      margin-bottom: 10px; }
   #page_home .envelope {
     position: relative;
     margin: 0 auto;
@@ -504,147 +494,6 @@ section[id^="page_"] {
       right: 12px;
       top: 28px;
       box-shadow: 0 8px 0 #A1A1A5, 0 16px 0 #A1A1A5, 0 24px 0 #A1A1A5; }
-
-/* ==================== 스타일 리셋 */
-/* ==================== 스타일 리셋 */
-.comp_button_dark_gray_46 {
-  display: inline-block;
-  text-align: center;
-  box-sizing: border-box;
-  -moz-box-sizing: border-box;
-  -webkit-box-sizing: border-box;
-  border-radius: 2px;
-  -webkit-border-radius: 2px;
-  -webkit-transition: all 0.1s;
-  /* For Safari 3.1 to 6.0 */
-  transition: all 0.1s;
-  border: 1px solid #4E4D54;
-  background: #4E4D54;
-  color: #fff;
-  padding: 15px 11px;
-  font-size: 14px;
-  font-weight: bold; }
-  .comp_button_dark_gray_46:disabled, .comp_button_dark_gray_46.disabled {
-    border: 1px solid #A1A1A5;
-    background: #A1A1A5; }
-    .comp_button_dark_gray_46:disabled, .comp_button_dark_gray_46:disabled:active, .comp_button_dark_gray_46:disabled:visited, .comp_button_dark_gray_46:disabled:focus, .comp_button_dark_gray_46:disabled:link, .comp_button_dark_gray_46.disabled, .comp_button_dark_gray_46.disabled:active, .comp_button_dark_gray_46.disabled:visited, .comp_button_dark_gray_46.disabled:focus, .comp_button_dark_gray_46.disabled:link {
-      color: #fff; }
-  .comp_button_dark_gray_46:active, .comp_button_dark_gray_46:focus {
-    border: 1px solid #39383E;
-    background: #39383E; }
-
-.comp_button_red_46 {
-  display: inline-block;
-  text-align: center;
-  box-sizing: border-box;
-  -moz-box-sizing: border-box;
-  -webkit-box-sizing: border-box;
-  border-radius: 2px;
-  -webkit-border-radius: 2px;
-  -webkit-transition: all 0.1s;
-  /* For Safari 3.1 to 6.0 */
-  transition: all 0.1s;
-  border: 1px solid #C9778C;
-  background: #C9778C;
-  color: #fff;
-  padding: 15px 11px;
-  font-size: 14px;
-  font-weight: bold; }
-  .comp_button_red_46:disabled, .comp_button_red_46.disabled {
-    border: 1px solid #A1A1A5;
-    background: #A1A1A5; }
-    .comp_button_red_46:disabled, .comp_button_red_46:disabled:active, .comp_button_red_46:disabled:visited, .comp_button_red_46:disabled:focus, .comp_button_red_46:disabled:link, .comp_button_red_46.disabled, .comp_button_red_46.disabled:active, .comp_button_red_46.disabled:visited, .comp_button_red_46.disabled:focus, .comp_button_red_46.disabled:link {
-      color: #fff; }
-  .comp_button_red_46:active, .comp_button_red_46:focus {
-    border: 1px solid #BD6E84;
-    background: #BD6E84; }
-
-.comp_select {
-  position: relative;
-  overflow: hidden;
-  height: 49px;
-  width: 200px;
-  padding: 15px 52px 16px 15px;
-  border: 2px solid #5F6079;
-  background: transparent;
-  box-sizing: border-box;
-  -moz-box-sizing: border-box;
-  -webkit-box-sizing: border-box;
-  border-radius: 5px;
-  -webkit-border-radius: 5px;
-  -webkit-transition: border 0.2s;
-  /* For Safari 3.1 to 6.0 */
-  transition: border 0.2s; }
-  .comp_select .ti-arrow-circle-down {
-    position: absolute;
-    display: block;
-    top: 50%;
-    right: 12px;
-    margin-top: -8px;
-    width: 20px;
-    height: 20px;
-    font-size: 18px;
-    content: "\e619"; }
-  .comp_select.disabled {
-    background: #DEE0E3; }
-  .comp_select.focus {
-    border-color: #BE747F; }
-  .comp_select select {
-    min-width: 70px;
-    width: 140%;
-    border: none;
-    font-size: 16px;
-    color: #4E4D54;
-    background: transparent;
-    margin-top: -2px;
-    -webkit-appearance: none;
-    -moz-appearance: none;
-    appearance: none; }
-    .comp_select select:disabled {
-      color: #DEE0E3; }
-    .comp_select select:focus {
-      color: #BE747F; }
-
-.comp_text_input {
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  appearance: none;
-  box-sizing: border-box;
-  -moz-box-sizing: border-box;
-  -webkit-box-sizing: border-box;
-  border-radius: 5px;
-  -webkit-border-radius: 5px;
-  -webkit-transition: border-color 0.2s, box-shadow 0.2s;
-  /* For Safari 3.1 to 6.0 */
-  transition: border-color 0.2s, box-shadow 0.2s;
-  height: 49px;
-  display: inline-block;
-  border: 2px solid #5F6079;
-  background: transparent;
-  padding: 13px;
-  font-size: 16px;
-  line-height: 1.2em;
-  color: #4E4D54; }
-  .comp_text_input:focus {
-    border-color: #BE747F;
-    box-shadow: 0 0 4px 0 rgba(31, 142, 230, 0.1);
-    -webkit-box-shadow: 0 0 4px 0 rgba(31, 142, 230, 0.1); }
-  .comp_text_input:disabled {
-    background: #DEE0E3;
-    color: #F6F6F6; }
-  .comp_text_input ::-webkit-input-placeholder {
-    color: #5F6079; }
-  .comp_text_input ::-moz-placeholder {
-    color: #5F6079; }
-  .comp_text_input :-ms-input-placeholder {
-    color: #5F6079; }
-  .comp_text_input :-moz-placeholder {
-    color: #5F6079; }
-
-#page_receive .bottom_button_wrapper {
-  position: absolute;
-  bottom: 15px;
-  left: 0; }
 
 .cover_loading {
   position: fixed;
