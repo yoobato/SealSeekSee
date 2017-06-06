@@ -185,25 +185,37 @@
 
                 startWatchGelocationForFindLetter();
             }, function (error) {
-                {# TODO: 우리 서비스 이용 못함 #}
+                hideLoading();
+
+                var errorMessage = "HTML5 Geolocation을 사용할 수 없습니다. (알 수 없는 오류)";
                 switch (error.code) {
                     case error.PERMISSION_DENIED:
-                        console.log("Geolocation error: User denied the request for Geolocation.");
+                        errorMessage = "HTML5 Geolocation을 사용할 수 없습니다. (위치 정보 사용 권한 거절. 브라우저 설정에서 권한을 허용해주세요.)";
                         break;
                     case error.POSITION_UNAVAILABLE:
-                        console.log("Geolocation error: Location information is unavailable.");
+                        errorMessage = "HTML5 Geolocation을 사용할 수 없습니다. (위치 정보를 받아올 수 없는 오류)";
                         break;
                     case error.TIMEOUT:
-                        console.log("Geolocation error: The request to get user location timed out.");
-                        break;
-                    default:
-                        console.log("Geolocation error: An unknown error occurred.");
+                        errorMessage = "HTML5 Geolocation을 사용할 수 없습니다. (위치 정보를 받아오는 도중 타임아웃 오류)";
                         break;
                 }
+                handleGeolocationErrorForFindLetter(errorMessage);
             });
         } else {
-            {# TODO: 우리 서비스 이용 못함 #}
-            console.log("Geolocation not available");
+            hideLoading();
+            handleGeolocationErrorForFindLetter("HTML5 Geolocation을 사용할 수 없으므로, 서비스를 이용할 수 없습니다.");
+        }
+    }
+
+    function handleGeolocationErrorForFindLetter(errorMessage) {
+        alert(errorMessage);
+        activePage("receive");
+
+        // 데이터 초기화
+        letterMetadata = null;
+        if (letterMarker !== null) {
+            letterMarker.setMap(null);
+            letterMarker = null;
         }
     }
 
@@ -335,12 +347,7 @@
                 initMapForFindLetter();
                 activePage("find_on_map");
 
-                // 데이터 초기화
-                $("form").each(function() {
-                    if (this.id === "find_letter_form") {
-                        this.reset();
-                    }
-                });
+                // geolocation 권한 불허시 다시 이 페이지로 올 수 있으므로, 데이터를 초기화 하지 않는다.
             }).fail(function(jqXHR) {
                 hideLoading();
                 alert(jqXHR.responseText);
