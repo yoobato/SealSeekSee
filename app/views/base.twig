@@ -32,7 +32,7 @@
     <script src="/static/node_modules/autosize/dist/autosize.min.js"></script>
     <script>
         var activePage = function(target) {
-            //$('#header').toggleClass('disactive', (target === 'home'));
+            $('#header').toggleClass('disactive', (target === 'home'));
             if (target === 'home') {
                 // 홈으로 돌아온 경우 모든 데이터 초기화
                 resetAllDataInput();
@@ -60,7 +60,7 @@
     </script>
 </head>
 <body>
-<header id="header" class="top_nav_header">
+<header id="header" class="top_nav_header disactive">
     <button class="history_back_button js_page_toggle" type="button" data-target="home">
         <span class="history_back_button_icon ti-home"></span>
     </button>
