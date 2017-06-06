@@ -175,6 +175,10 @@
                 bounds.extend(letterPosition);
                 mapForFindLetter.fitBounds(bounds);
 
+                // 너무 zoom이 심히게 된 경우 다시 zoom-out 시킨다.
+                var zoom = mapForFindLetter.getZoom();
+                mapForFindLetter.setZoom(zoom > 16 ? 16 : zoom);
+
                 handleMyLocationUpdate(position);
                 hideLoading();
 
