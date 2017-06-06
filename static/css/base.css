@@ -4,6 +4,11 @@ html, body, div, dl, dt, dd, ul, ol, li, h1, h2, h3, h4, h5, h6, pre, code, fiel
   margin: 0;
   padding: 0; }
 
+html, body {
+  height: 100%;
+  overflow-y: scroll;
+  -webkit-overflow-scrolling: touch; }
+
 article, aside, canvas, details, figcaption, figure, footer, header, nav, section, summary {
   display: block;
   margin: 0;
@@ -107,7 +112,7 @@ a, input, button, textarea, select {
       font-weight: bold; }
   #header .nav_logo_text {
     position: absolute;
-    top: 25px;
+    top: 17px;
     left: 50%;
     width: 150px;
     margin-left: -70px;
