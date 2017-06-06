@@ -5,7 +5,7 @@ html, body, div, dl, dt, dd, ul, ol, li, h1, h2, h3, h4, h5, h6, pre, code, fiel
   padding: 0; }
 
 html, body {
-  position: fixed;
+  position: sticky;
   overflow: hidden; }
 
 article, aside, canvas, details, figcaption, figure, footer, header, nav, section, summary {
@@ -123,7 +123,7 @@ a, input, button, textarea, select {
 
 .main_wrapper {
   width: 100vw;
-  height: 100%;
+  height: 100vh;
   overflow-y: scroll;
   -webkit-overflow-scrolling: touch; }
 
@@ -442,7 +442,7 @@ section[id^="page_"] {
   #page_home .home_buttons {
     position: absolute;
     width: 100%;
-    bottom: 10px;
+    bottom: 15px;
     left: 0;
     padding: 20px;
     box-sizing: border-box;
