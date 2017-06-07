@@ -159,6 +159,11 @@ section[id^="page_"] {
         color: #5F6079;
         letter-spacing: 3px;
         font-family: 'Nanum Pen Script', serif; }
+      section[id^="page_"] .message_area_wrapper .message_area .mail_date {
+        height: 24px;
+        text-align: right;
+        font-size: 18px;
+        font-family: 'Nanum Pen Script', serif; }
       section[id^="page_"] .message_area_wrapper .message_area .mail_title, section[id^="page_"] .message_area_wrapper .message_area .title_input {
         height: 49px;
         font-weight: bold; }

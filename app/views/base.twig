@@ -376,9 +376,11 @@
             $.post("/api/letter/read", params, function(data) {
                 var letter = data.letter;
 
+                var $readLetterDate = $("#read_letter_date");
                 var $readLetterTitle = $("#read_letter_title");
                 var $readLetterContent = $("#read_letter_content");
 
+                $readLetterDate.text("작성일: " + letter.created_date);
                 $readLetterTitle.text(letter.title);
                 $readLetterContent.text(letter.message);
 
@@ -466,6 +468,7 @@
         $("#read_letter_button").prop("disabled", true);
 
         // 편지 읽기 화면 초기화
+        $("#read_letter_date").text("");
         $("#read_letter_title").text("");
         $("#read_letter_content").text("");
         $("#reply_letter_container").hide();
