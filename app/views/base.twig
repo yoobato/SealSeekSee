@@ -309,11 +309,31 @@
 
             var $receiverPhone1 = $form.find("select[name='receiver_phone_number_1']");
             var $receiverPhone2 = $form.find("input[name='receiver_phone_number_2']");
+            if (/^\d{3,4}$/.test($receiverPhone2.val()) === false) {
+                alert("받는 사람 번호가 올바르지 않습니다.");
+                $receiverPhone2.focus();
+                return;
+            }
             var $receiverPhone3 = $form.find("input[name='receiver_phone_number_3']");
+            if (/^\d{4}$/.test($receiverPhone3.val()) === false) {
+                alert("받는 사람 번호가 올바르지 않습니다.");
+                $receiverPhone3.focus();
+                return;
+            }
             var receiverPhone = $receiverPhone1.val() + "-" + $receiverPhone2.val() + "-" + $receiverPhone3.val();
 
             var $title = $form.find("input[name='title']");
+            if ($title.val().length === 0) {
+                alert("편지의 제목을 입력해주세요.");
+                $title.focus();
+                return;
+            }
             var $content = $form.find("textarea[name='content']");
+            if ($content.val().length === 0) {
+                alert("편지의 내용을 입력해주세요.");
+                $content.focus();
+                return;
+            }
 
             var params = {
                 sender_phone: senderPhone,
@@ -342,12 +362,37 @@
 
             var $receiverPhone1 = $form.find("select[name='receiver_phone_number_1']");
             var $receiverPhone2 = $form.find("input[name='receiver_phone_number_2']");
+            if (/^\d{3,4}$/.test($receiverPhone2.val()) === false) {
+                alert("내 번호가 올바르지 않습니다.");
+                $receiverPhone2.focus();
+                return;
+            }
             var $receiverPhone3 = $form.find("input[name='receiver_phone_number_3']");
+            if (/^\d{4}$/.test($receiverPhone3.val()) === false) {
+                alert("내 번호가 올바르지 않습니다.");
+                $receiverPhone3.focus();
+                return;
+            }
             var receiverPhone = $receiverPhone1.val() + "-" + $receiverPhone2.val() + "-" + $receiverPhone3.val();
 
             var $word1 = $form.find("input[name='location_word_1']");
+            if ($word1.val().length === 0) {
+                alert("암호 단어를 입력해주세요.");
+                $word1.focus();
+                return;
+            }
             var $word2 = $form.find("input[name='location_word_2']");
+            if ($word2.val().length === 0) {
+                alert("암호 단어를 입력해주세요.");
+                $word2.focus();
+                return;
+            }
             var $word3 = $form.find("input[name='location_word_3']");
+            if ($word3.val().length === 0) {
+                alert("암호 단어를 입력해주세요.");
+                $word3.focus();
+                return;
+            }
 
             var params = {
                 receiver_phone: receiverPhone,

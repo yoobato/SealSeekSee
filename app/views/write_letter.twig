@@ -1,7 +1,7 @@
 <section id="page_send">
     <form id="write_letter_form">
         <div class="input_type_wrapper">
-            <label for="write_letter_sender_phone_number_1" class="input_label">보내는 사람 번호</label>
+            <label for="write_letter_sender_phone_number_1" class="input_label">보내는 사람 번호 (선택)</label>
             <div class="phone_num_input_wrapper">
                 <div class="comp_select phone_num_input_1">
                     <select name="sender_phone_number_1" id="write_letter_sender_phone_number_1">
@@ -15,10 +15,10 @@
                     <span class="ti-arrow-circle-down"></span>
                 </div>
                 <div class="phone_num_input_2">
-                    <input type="text" maxlength="4" name="sender_phone_number_2" id="write_letter_sender_phone_number_2" class="comp_text_input" />
+                    <input type="text" maxlength="4" pattern="^\d{3,4}$" name="sender_phone_number_2" id="write_letter_sender_phone_number_2" class="comp_text_input" />
                 </div>
                 <div class="phone_num_input_3">
-                    <input type="text" maxlength="4" name="sender_phone_number_3" id="write_letter_sender_phone_number_3" class="comp_text_input" />
+                    <input type="text" maxlength="4" pattern="^\d{4}$" name="sender_phone_number_3" id="write_letter_sender_phone_number_3" class="comp_text_input" />
                 </div>
             </div>
         </div>
