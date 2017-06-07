@@ -124,6 +124,10 @@ class ApiController implements ControllerProviderInterface
         // 열어 본 날짜 업데이트
         if (empty($letter->opened_date)) {
             $letter = LetterFactory::updateOpenedDate($letter);
+
+            // 편지 송신자에게 읽었다고 안내 문자 보내기
+            $sms_message = '* SealSeekSee *' . "\r\n" . '상대방이 내가 남긴 편지를 읽었어요!';
+            SMSUtil::send($letter->sender_phone, $sms_message);
         }
 
         return $app->json(array('letter' => $letter));
