@@ -104,6 +104,9 @@ section[id^="page_"] {
     }
     .map_distance {
       position: absolute;
+      width: -webkit-calc(100% - 40px);
+      width: -moz-calc(100% - 40px);
+      width: calc(100% - 40px);
       top: 75px;
       left: 15px;
       background-color: rgba(0, 0, 0, 0.5);
@@ -111,6 +114,7 @@ section[id^="page_"] {
       z-index: 80;
       font-size: 15px;
       padding: 5px;
+      text-align: right;
     }
   }
 

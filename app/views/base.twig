@@ -256,7 +256,7 @@
         var distance = google.maps.geometry.spherical.computeDistanceBetween(myMarker.getPosition(), letterMarker.getPosition());
         
         var $letterDistance = $("#letter_distance");
-        $letterDistance.text("편지와의 거리: " + distance.toFixed() + "m");
+        $letterDistance.text("나와 편지 사이의 거리 : " + distance.toFixed() + "m");
 
         var $readLetterButton = $("#read_letter_button");
         if (distance <= 300) {
@@ -440,6 +440,10 @@
         // 높이 보정... 이거 안하면 iOS Safari에서 난리남...
         var documentHeight = $(window).innerHeight();
         $("section").css("height", documentHeight + "px");
+        $(window).on('resize', function() {
+            var documentHeight = $(window).innerHeight();
+            $("section").css("height", documentHeight + "px");
+        });
     });
 
     function showLoading() {
@@ -467,7 +471,7 @@
             myMarker = null;
         }
         stopWatchGeolocationForFindLetter();
-        $("#letter_distance").text("편지와의 거리: ?m");
+        $("#letter_distance").text("나와 편지 사이의 거리 : ?m");
         $("#read_letter_button").prop("disabled", true);
 
         // 편지 읽기 화면 초기화

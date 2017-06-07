@@ -204,13 +204,17 @@ section[id^="page_"] {
       background-color: red; }
     section[id^="page_"] .map_wrapper2 .map_distance {
       position: absolute;
+      width: -webkit-calc(100% - 40px);
+      width: -moz-calc(100% - 40px);
+      width: calc(100% - 40px);
       top: 75px;
       left: 15px;
       background-color: rgba(0, 0, 0, 0.5);
       color: #F5F3F0;
       z-index: 80;
       font-size: 15px;
-      padding: 5px; }
+      padding: 5px;
+      text-align: right; }
   section[id^="page_"] .bottom_button_wrapper {
     width: 100%;
     padding: 15px;
