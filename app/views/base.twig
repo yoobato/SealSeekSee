@@ -254,7 +254,9 @@
 
         // 내 위치와 편지 위치와의 거리 계산. 300m 이내인 경우에만 편지 읽을 수 있게
         var distance = google.maps.geometry.spherical.computeDistanceBetween(myMarker.getPosition(), letterMarker.getPosition());
-        console.log("[GooleMap] Distance: " + distance + "m");
+        
+        var $letterDistance = $("#letter_distance");
+        $letterDistance.text("편지와의 거리: " + distance.toFixed() + "m");
 
         var $readLetterButton = $("#read_letter_button");
         if (distance <= 300) {
@@ -465,6 +467,7 @@
             myMarker = null;
         }
         stopWatchGeolocationForFindLetter();
+        $("#letter_distance").text("편지와의 거리: ?m");
         $("#read_letter_button").prop("disabled", true);
 
         // 편지 읽기 화면 초기화

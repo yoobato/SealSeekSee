@@ -102,6 +102,16 @@ section[id^="page_"] {
 
       background-color: red;
     }
+    .map_distance {
+      position: absolute;
+      top: 75px;
+      left: 15px;
+      background-color: rgba(0, 0, 0, 0.5);
+      color: $pastel_white;
+      z-index: 80;
+      font-size: 15px;
+      padding: 5px;
+    }
   }
 
   .bottom_button_wrapper {
