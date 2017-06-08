@@ -1,3 +1,5 @@
+$top_nav_header_height: 60px;
+
 @mixin border_radius( $radius_num ) {
   border-radius: $radius_num;
   -webkit-border-radius: $radius_num;

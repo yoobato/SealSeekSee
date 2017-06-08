@@ -4,7 +4,6 @@
 @include style_reset();
 
 
-$top_nav_header_height: 60px;
 #header {
   position: fixed; top: 0; left: 0; z-index: 9999;
   -webkit-backface-visibility: hidden;

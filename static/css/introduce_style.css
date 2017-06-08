@@ -1,0 +1,119 @@
+@charset "UTF-8";
+/* ==================== 스타일 리셋 */
+#page_introduce {
+  padding: 70px 15px 10px 15px;
+  color: #4E4D54; }
+  #page_introduce .introduce_wrapper .main_concept_text {
+    display: table;
+    width: 100%;
+    padding: 10px 0 20px 0; }
+    #page_introduce .introduce_wrapper .main_concept_text .concept {
+      display: table-row;
+      font-size: 30px;
+      line-height: 40px; }
+      #page_introduce .introduce_wrapper .main_concept_text .concept .concept_name, #page_introduce .introduce_wrapper .main_concept_text .concept .concept_meaning {
+        display: table-cell; }
+      #page_introduce .introduce_wrapper .main_concept_text .concept .concept_name {
+        text-align: right;
+        width: 50%;
+        padding-right: 15px;
+        color: #BE747F; }
+  #page_introduce .introduce_wrapper .desc_text {
+    font-size: 16px;
+    line-height: 1.6em;
+    text-indent: 8px; }
+    #page_introduce .introduce_wrapper .desc_text.main_desc_text {
+      padding-bottom: 10px; }
+  #page_introduce .introduce_wrapper .desc_section {
+    padding: 5px 0; }
+    #page_introduce .introduce_wrapper .desc_section .desc_section_header {
+      position: relative;
+      display: block;
+      padding: 15px 0 10px 0;
+      font-size: 20px;
+      font-weight: bold;
+      color: #C9778C;
+      -webkit-transition: all 0.15s;
+      /* For Safari 3.1 to 6.0 */
+      transition: all 0.15s; }
+      #page_introduce .introduce_wrapper .desc_section .desc_section_header:after {
+        position: absolute;
+        content: '';
+        width: 50%;
+        height: 1px;
+        background: rgba(78, 84, 77, 0.1);
+        display: block;
+        bottom: 2px;
+        left: 0; }
+      #page_introduce .introduce_wrapper .desc_section .desc_section_header:active, #page_introduce .introduce_wrapper .desc_section .desc_section_header:focus {
+        color: #DFA599; }
+    #page_introduce .introduce_wrapper .desc_section .desc_context .desc_list {
+      position: relative;
+      padding: 2px 5px 5px 0;
+      margin-left: 20px;
+      list-style: decimal; }
+      #page_introduce .introduce_wrapper .desc_section .desc_context .desc_list .desc_list_item {
+        position: relative;
+        padding: 0 0 5px 2px;
+        line-height: 24px;
+        font-size: 16px; }
+        #page_introduce .introduce_wrapper .desc_section .desc_context .desc_list .desc_list_item .text_link {
+          font-size: inherit;
+          color: #C9778C; }
+          #page_introduce .introduce_wrapper .desc_section .desc_context .desc_list .desc_list_item .text_link:active, #page_introduce .introduce_wrapper .desc_section .desc_context .desc_list .desc_list_item .text_link:focus {
+            color: #DFA599; }
+      #page_introduce .introduce_wrapper .desc_section .desc_context .desc_list > .desc_list_item {
+        color: #39383E; }
+      #page_introduce .introduce_wrapper .desc_section .desc_context .desc_list .inner_list {
+        position: relative;
+        margin-left: 0;
+        list-style: none; }
+        #page_introduce .introduce_wrapper .desc_section .desc_context .desc_list .inner_list .desc_list_item {
+          padding-left: 0;
+          color: #586079;
+          padding-left: 10px; }
+          #page_introduce .introduce_wrapper .desc_section .desc_context .desc_list .inner_list .desc_list_item:before {
+            content: '';
+            position: absolute;
+            width: 5px;
+            height: 1px;
+            top: 11px;
+            left: 0;
+            background: #39383E;
+            display: block; }
+  #page_introduce .introduce_wrapper .bottom_info_wrapper {
+    position: relative;
+    padding-top: 10px; }
+    #page_introduce .introduce_wrapper .bottom_info_wrapper:before {
+      position: absolute;
+      content: '';
+      width: 50%;
+      height: 1px;
+      background: rgba(78, 84, 77, 0.1);
+      display: block;
+      top: 0;
+      left: 25%; }
+    #page_introduce .introduce_wrapper .bottom_info_wrapper .team_introduce {
+      display: table;
+      width: 100%; }
+      #page_introduce .introduce_wrapper .bottom_info_wrapper .team_introduce .team_name {
+        display: table-cell;
+        text-align: right;
+        font-size: 14px;
+        color: #4E4D54;
+        line-height: 1.6em;
+        font-weight: bold; }
+        #page_introduce .introduce_wrapper .bottom_info_wrapper .team_introduce .team_name .team_name_text {
+          color: #BE747F; }
+      #page_introduce .introduce_wrapper .bottom_info_wrapper .team_introduce .team_member_list {
+        display: table-cell;
+        padding-left: 10px; }
+        #page_introduce .introduce_wrapper .bottom_info_wrapper .team_introduce .team_member_list .team_member {
+          font-size: 12px;
+          color: #5F6079;
+          line-height: 1.6em; }
+  #page_introduce .introduce_wrapper .copyright {
+    display: block;
+    text-align: center;
+    font-size: 13px;
+    padding: 12px 0 30px 0; }
