@@ -30,6 +30,14 @@
   }
 }
 
+@mixin comp_button_dark_blue {
+  border: 1px solid $dark_blue_1; background: $dark_blue_1;
+  color: #fff;
+  &:active, &:focus {
+    border: 1px solid $dark_blue_2; background: $dark_blue_2;
+  }
+}
+
 @mixin comp_button_46 () {
   padding: 15px 11px; font-size: 14px; font-weight: bold;
 }
@@ -43,6 +51,12 @@
 .comp_button_red_46 {
   @include comp_button();
   @include comp_button_red();
+  @include comp_button_46();
+}
+
+.comp_button_dark_blue_46 {
+  @include comp_button();
+  @include comp_button_dark_blue();
   @include comp_button_46();
 }
 
