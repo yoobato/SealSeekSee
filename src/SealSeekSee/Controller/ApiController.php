@@ -93,14 +93,7 @@ class ApiController implements ControllerProviderInterface
         $w3w_address = $word1 . '.' . $word2 . '.' . $word3;
 
         try {
-            $coordinates_bounds = What3WordsUtil::address2CoordinatesBounds($w3w_address);
-
-            $letters = LetterFactory::findByReceiverPhoneAndCoordinatesBounds($receiver_phone,
-                $coordinates_bounds['northeast']['lat'],
-                $coordinates_bounds['northeast']['lng'],
-                $coordinates_bounds['southwest']['lat'],
-                $coordinates_bounds['southwest']['lng']
-            );
+            $letters = LetterFactory::findByReceiverPhoneAndWhat3WordsAddress($receiver_phone, $w3w_address);
             if (empty($letters)) {
                 throw new \Exception('남겨진 편지가 없습니다. 휴대전화 번호와 암호 단어를 다시 확인해주세요!');
             }

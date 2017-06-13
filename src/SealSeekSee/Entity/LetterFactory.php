@@ -21,6 +21,18 @@ class LetterFactory
 
     /**
      * @param $receiver_phone
+     * @param $w3w_address
+     * @return Letter[]
+     */
+    public static function findByReceiverPhoneAndWhat3WordsAddress($receiver_phone, $w3w_address) {
+        $em = EntityManagerProvider::getEntityManager();
+        $letters = $em->getRepository('SealSeekSee\Entity\Letter')
+            ->findBy(array('receiver_phone' => $receiver_phone, 'w3w_address' => $w3w_address), array('created_date' => 'DESC'));
+        return $letters;
+    }
+
+    /**
+     * @param $receiver_phone
      * @param $northeast_lat
      * @param $northeast_lng
      * @param $southwest_lat
