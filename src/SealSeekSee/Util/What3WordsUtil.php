@@ -6,8 +6,6 @@ use Exception;
 
 class What3WordsUtil
 {
-    const WHAT_3_WORDS_API_KEY = '1MPXZL99';
-
     /**
      * What 3 Words API (Forward Geocoding)
      * 3단어 주소 => 위도, 경도
@@ -21,7 +19,7 @@ class What3WordsUtil
         $query = http_build_query([
             'addr' => $address,
             'display' => 'full',
-            'key' => static::WHAT_3_WORDS_API_KEY
+            'key' => WHAT_3_WORDS_API_KEY
         ]);
 
         $ch = curl_init();
@@ -55,7 +53,7 @@ class What3WordsUtil
         $query = http_build_query([
             'coords' => $lat . ',' . $lng,
             'display' => 'minimal',
-            'key' => static::WHAT_3_WORDS_API_KEY
+            'key' => WHAT_3_WORDS_API_KEY
         ]);
 
         $ch = curl_init();

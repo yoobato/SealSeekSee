@@ -12,9 +12,6 @@ use Symfony\Component\HttpFoundation\Response;
 
 class ApiController implements ControllerProviderInterface
 {
-    // https://sealseeksee.yoobato.com
-    const LETTER_CHECK_SHORTEN_URL = 'http://bit.ly/2sPcEET';
-    
     public function connect(Application $app)
     {
         /** @var $api \Silex\ControllerCollection */
@@ -64,7 +61,7 @@ class ApiController implements ControllerProviderInterface
             }
 
             // 편지 수신자에게 문자 보내기 (문자 내용이 길어질 수도 있어, 두번으로 나눠서 보낸다.)
-            $sms_message = '* SealSeekSee *' . "\r\n" . '누군가 편지를 남겼어요~! 편지를 찾아주세요! ' . static::LETTER_CHECK_SHORTEN_URL;
+            $sms_message = '* SealSeekSee *' . "\r\n" . '누군가 편지를 남겼어요~! 편지를 찾아주세요! ' . LETTER_CHECK_SHORTEN_URL;
             SMSUtil::send($receiver_phone, $sms_message);
 
             $w3w_address = '[ ' . str_replace('.', ', ', $w3w_address) . ' ]';

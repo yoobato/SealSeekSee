@@ -8,10 +8,6 @@ class SMSUtil
 {
     const MAX_MESSAGE_LENGTH = 89;  // < 90byte 까지 가능
 
-    const USER_ID = 'nangmanproject';                   // SMS 아이디
-    const SECURE = 'ccd07e497c62acf169a5cdb3721460b4';  // 인증키
-    const SENDER_PHONE = '010-3227-8287';               // 발신번호
-
     public static function send($receiver_phone, $message)
     {
         // 휴대전화 번호 사이에 '-'를 넣어준다
@@ -42,13 +38,13 @@ class SMSUtil
         $sms['smsType'] = base64_encode('S');                   // 단문(SMS): S, 장문(LMS): L
         $sms['mode'] = base64_encode('1');                      // base64 사용시 모드값 1
 
-        $sms['user_id'] = base64_encode(SMSUtil::USER_ID);      // SMS 아이디
-        $sms['secure'] = base64_encode(SMSUtil::SECURE);        // 인증키
+        $sms['user_id'] = base64_encode(CAFE24_SMS_USER_ID);      // SMS 아이디
+        $sms['secure'] = base64_encode(CAFE24_SMS_SECURE);        // 인증키
 
         $sms['rphone'] = base64_encode($receiver_phone);        // 수신번호 ('-' 포함)
         $sms['msg'] = base64_encode(stripslashes($message));    // 단문 메세지
 
-        $sender_phone = explode('-', SMSUtil::SENDER_PHONE);    // 발신번호
+        $sender_phone = explode('-', CAFE24_SMS_SENDER_PHONE);    // 발신번호
         $sms['sphone1'] = base64_encode($sender_phone[0]);      // 발신번호1
         $sms['sphone2'] = base64_encode($sender_phone[1]);      // 발신번호2
         $sms['sphone3'] = base64_encode($sender_phone[2]);      // 발신번호3
